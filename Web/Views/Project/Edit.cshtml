@@ -1,0 +1,87 @@
+﻿@using CleanArc.Application.Services.Projects.Commands.ViewModels
+@model CleanArc.Application.Services.Projects.Commands.ViewModels.ProjectUpdateViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@{
+        ProjectUpdateViewModel Model = ViewBag.Model;
+}
+
+<div id="formBody">
+    <div asp-validation-summary="ModelOnly" class="validation"></div>
+
+    <label asp-for="Id" hidden></label>
+    <input asp-for="Id" type="hidden" value=@Model.Id class="form-control" />
+    <span asp-validation-for="Id" class="text-danger"></span>
+
+    <label asp-for="Name">Name </label>
+    <input asp-for="Name" type="text" value=@Model.Name class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+
+    <br />
+    <label asp-for="DepartmentId"> Department</label>
+    <select asp-for="DepartmentId"
+            asp-data-style="btn-select" asp-data-live-search="true"
+            asp-data-size="3"
+            asp-max-options="1"
+            class="custom-select" id="departmentDD">
+    </select>
+    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+
+    <br />
+    <label asp-for="CedacriInternationalRUser"> Cedacri Interantional User</label>
+    <select asp-for="CedacriInternationalRUser"
+            asp-data-style="btn-select" asp-data-live-search="true"
+            asp-data-size="3"
+            asp-max-options="1"
+            class="custom-select" id="userInterDD">
+    </select>
+    <span asp-validation-for="CedacriInternationalRUser" class="text-danger"></span>
+
+    <br />
+    <label asp-for="CedacriItalyRUser"> Cedacri Italy User</label>
+    <select asp-for="CedacriItalyRUser"
+            asp-data-style="btn-select" asp-data-live-search="true"
+            asp-data-size="3"
+            asp-max-options="1"
+            class="custom-select" id="userItalyDD">
+    </select>
+    <span asp-validation-for="CedacriItalyRUser" class="text-danger"></span>
+</div>
+
+
+
+
+
+
+
+
+
+@section scripts{
+    <script>
+        var ddId = '@Html.Raw(Model.DepartmentId)';
+        var interId = '@Html.Raw(Model.CedacriInternationalRUser)';
+        var italyId = '@Html.Raw(Model.CedacriItalyRUser)';
+
+    $(document).ready(function () {
+
+        getDropDown(ddId, "departments", function (data) {
+            appendDataDropDown(data.responseValue, ddId, "#departmentDD")
+        });
+        getDropDown(interId, "users", function (data) {
+            appendDataDropDown(data.responseValue, interId, "#userInterDD")
+        });
+        getDropDown(italyId, "users", function (data) {
+            appendDataDropDown(data.responseValue, italyId, "#userItalyDD")
+        });
+    });
+
+
+    </script>
+
+
+
+
+}

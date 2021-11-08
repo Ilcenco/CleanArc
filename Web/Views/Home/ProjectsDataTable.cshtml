@@ -1,0 +1,94 @@
+﻿
+@model Application.Projects.Commands.AddProject.AddProjectCommand
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<link rel="stylesheet" href="~/css/Users.css" />
+
+
+<div class="wrapper">
+    <div class="main-content listAll">
+        <section id="sectionListAll">
+            <h2><i class="fas fa-user"></i>Projects</h2>
+            <p>
+                <table class="table table-hover table-striped table-class" id="dataTable">
+                    <thead>
+                        <tr class="props">
+                            <th class="th-sm">
+                                <i class="fas fa-list-ol"></i>
+                            </th>
+                            <th class="th-sm">
+                                <i class="fas fa-user"></i>Name
+                            </th>
+                            <th class="th-sm">
+                                <i class="fas fa-laptop-code"></i> Department
+                            </th>
+                            <th class="th-sm">
+                                <i class="fas fa-user"></i>International resp. User
+                            </th>
+                            <th class="th-sm">
+                                <i class="fas fa-user"></i>Italy resp. User
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+
+
+
+                <form id="addProjectForm" asp-antiforgery="true" asp-action="Create" asp-controller="Project">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Project</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="popup_text">
+
+                                </div>
+                                <div class="modal-footer" id="popup_buttons">
+                                    <div id="buttons">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form id="editProjectForm" asp-antiforgery="true" asp-action="Upsert" asp-controller="Project">
+                    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Project</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="popup_text1">
+
+                                </div>
+                                <div class="modal-footer" id="popup_buttons1">
+                                    <div id="buttons">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </p>
+        </section>
+        <br />
+    </div>
+</div>
+

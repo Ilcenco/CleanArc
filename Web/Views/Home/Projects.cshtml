@@ -1,0 +1,145 @@
+﻿@model Application.Projects.Commands.AddProject.AddProjectCommand
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<link rel="stylesheet" href="~/css/Users.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+<div class="wrapper">
+    <div class="main-content listAll">
+        <section id="sectionListAll">
+            <h2><i class="fas fa-user"></i>Projects</h2>
+            <p>
+                <div class="upperSideList">
+                    <div class="form-group">
+                        <!--		Show Numbers Of Rows 		-->
+                        <select class="form-control" name="state" id="maxRows">
+                            <option value="13">Default 13</option>
+                            <option value="1">1</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <div class="search form-group">
+                        <form action="#">
+                            <input type="text"
+                                   placeholder=" Search Project "
+                                   name="search"
+                                   onkeyup="filterFunc()"
+                                   id="searchInput"
+                                   class="form-control">
+                        </form>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <!--<button class="addBtn" id="addBtn" onclick="addFunc()">
+                    <i class="fas fa-plus-square"></i>-->
+                    @*<a href="#popup">Add New</a>*@
+                    <!--<a data-toggle="modal" data-target="#exampleModal">Add New</a>
+                    </button>-->
+                    <button class="addBtn" id="addBtn" onclick="addFunc1()">
+                        <i class="fas fa-plus-square"></i>
+                        @*<a href="#popup">Add New</a>*@
+                        <a data-toggle="modal" data-target="#exampleModal">Add New</a>
+                    </button>
+                </div>
+                <div class="container">
+                    <table class="table table-hover table-striped table-class" id="pagedTable">
+                        <thead>
+                            <tr class="props">
+                                <th class="th-sm">
+                                    <i class="fas fa-list-ol"></i>
+                                </th>
+                                <th class="th-sm">
+                                    <i class="fas fa-user"></i>Name
+                                </th>
+                                <th class="th-sm">
+                                    <i class="fas fa-laptop-code"></i> Department
+                                </th>
+                                <th class="th-sm">
+                                    <i class="fas fa-user"></i>International resp. User
+                                </th>
+                                <th class="th-sm">
+                                    <i class="fas fa-user"></i>Italy resp. User
+                                </th>
+                                <th class="th-sm">
+                                    <i class="fas fa-edit"></i>Edit
+                                </th>
+                                <th class="th-sm">
+                                    <i class="fas fa-trash-alt"></i>Delete
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class="paginationButtons" id="paginationButtons">
+
+                    </div>
+                </div>
+                <form id="addProjectForm" asp-antiforgery="true" asp-action="Create" asp-controller="Project">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Project</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="popup_text">
+
+                                </div>
+                                <div class="modal-footer" id="popup_buttons">
+                                    <div id="buttons">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+                <form id="editProjectForm" asp-antiforgery="true" asp-action="Upsert" asp-controller="Project">
+                    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Project</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="popup_text1">
+
+                                </div>
+                                <div class="modal-footer" id="popup_buttons1">
+                                    <div id="buttons">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </p>
+        </section>
+        <br />
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>

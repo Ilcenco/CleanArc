@@ -1,0 +1,72 @@
+﻿@model CleanArc.Application.Services.Projects.ViewModels.ProjectAddViewModel
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<div id="formBody">
+    <div asp-validation-summary="ModelOnly" class="validation"></div>
+
+    <label asp-for="Name">Name </label>
+    <input asp-for="Name" type="text" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+
+    <br />
+    <label asp-for="DepartmentId"> Department</label>
+    <select asp-for="DepartmentId"
+            asp-data-style="btn-select" asp-data-live-search="true"
+            asp-data-size="3"
+            asp-max-options="1"
+            class="custom-select" id="departmentDD">
+    </select>
+    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+
+    <br />
+    <label asp-for="CedacriInternationalRUser"> Cedacri Interantional User</label>
+    <select asp-for="CedacriInternationalRUser"
+            asp-data-style="btn-select" asp-data-live-search="true"
+            asp-data-size="3"
+            asp-max-options="1"
+            class="custom-select" id="userInterDD">
+    </select>
+    <span asp-validation-for="CedacriInternationalRUser" class="text-danger"></span>
+
+    <br />
+    <label asp-for="CedacriItalyRUser"> Cedacri Italy User</label>
+    <select asp-for="CedacriItalyRUser"
+            asp-data-style="btn-select" asp-data-live-search="true"
+            asp-data-size="3"
+            asp-max-options="1"
+            class="custom-select" id="userItalyDD">
+    </select>
+    <span asp-validation-for="CedacriItalyRUser" class="text-danger"></span>
+
+</div>
+
+
+
+
+
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            getDropDown(null, "departments", function (data) {
+                appendDataDropDown(data.responseValue, null, "#departmentDD")
+            });
+            getDropDown(null, "users", function (data) {
+                appendDataDropDown(data.responseValue, null, "#userInterDD")
+            });
+            getDropDown(null, "users", function (data) {
+                appendDataDropDown(data.responseValue, null, "#userItalyDD")
+            });
+        });
+
+
+    </script>
+
+    
+    
+
+}
