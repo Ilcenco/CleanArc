@@ -11,7 +11,6 @@ $(document).ready(function () {
             "ajax": {
                 "url": "/api/projects/getDataTable",
                 "type": "POST",
-                "dataType" : 'JSON',
             },
             "columns": [
                 { "data": "Name" },
