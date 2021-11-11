@@ -7,7 +7,7 @@
 }
 <link rel="stylesheet" href="~/css/Users.css" />
 
-
+<!-- <table id="mytable"></table> -->
 <div class="wrapper">
     <div class="main-content listAll">
         <section id="sectionListAll">
@@ -17,7 +17,7 @@
                     <thead>
                         <tr class="props">
                             <th class="th-sm">
-                                <i class="fas fa-list-ol"></i>
+                                <i class="fas fa-user idRow"></i>Id
                             </th>
                             <th class="th-sm">
                                 <i class="fas fa-user"></i>Name
@@ -36,10 +36,6 @@
                     <tbody>
                     </tbody>
                 </table>
-
-
-
-
                 <form id="addProjectForm" asp-antiforgery="true" asp-action="Create" asp-controller="Project">
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -91,4 +87,32 @@
         <br />
     </div>
 </div>
+
+
+<script>
+
+    $(function () {
+        $.contextMenu({
+            selector: '.dataTable',
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+                window.console && console.log(m) || alert(m);
+            },
+            items: {
+                "edit": {
+                    name: "Edit",
+                    icon: "edit",
+                    callback: function (itemKey, opt) {
+                        alert($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                    }
+                }
+            }
+        });
+
+        $('.context-menu-one').on('click', function (e) {
+            console.log('clicked', this);
+        })
+    });
+
+</script>
 

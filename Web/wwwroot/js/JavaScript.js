@@ -4,21 +4,86 @@ $(document).ready(function () {
     refresh();
 })
 
+//$(function () {
+//    var data = [
+//        [
+//            {
+//                text: "<i class='fa fa-cut site-cm-icon'></i>Add row",
+//                action: function () {
+//                    console.log("剪切");
+//                }
+//            },
+//            {
+//                text: "<i class='fa fa-copy site-cm-icon'></i>Remove Row"
+//            },
+//            {
+//                text: "<i class='fa fa-paste site-cm-icon'></i>Edit Data",
+//                action: function () {
+//                    console.log("粘贴");
+//                }
+//            }
+//        ],
+//    ];
+
+//    $("#dataTable").contextMenu(data);
+//})
+
 $(document).ready(function () {
+
+    //$('#dataTable').DataTable({
+    //    // Design Assets
+    //    stateSave: true,
+    //    autoWidth: true,
+    //    // ServerSide Setups
+    //    processing: true,
+    //    serverSide: true,
+    //    // Paging Setups
+    //    paging: true,
+    //    // Searching Setups
+    //    searching: { regex: true },
+    //    // Ajax Filter
+    //    ajax: {
+    //        url: "/api/projects/getDataTable",
+    //        type: "POST",
+    //        contentType: "application/json",
+    //        dataType: "json",
+    //        data: function (d) {
+    //            return JSON.stringify(d);
+    //        }
+    //    },
+    //    columns: [
+    //        { data: "Name" },
+    //        { data: "DepartmentName" },
+    //        { data: "CedacriInternationalUserName" },
+    //        { data: "CedacriItalyUserName" }
+    //    ]
+    //});
     $('#dataTable').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url": "/api/projects/getDataTable",
-                "type": "POST",
-            },
-            "columns": [
-                { "data": "Name" },
-                { "data": "DepartmentName" },
-                { "data": "CedacriInternationalUserName" },
-                { "data": "CedacriItalyUserName" }
-            ]
-        });
+        "processing": true,
+        "serverSide": true,
+        "autoWidth": false,
+        "ajax": {
+            "url": "/api/projects/getDataTable",
+            "type": "POST",
+        },
+        "columns": [
+            { "data": "id" },
+            { "data": "name" },
+            { "data": "departmentName" },
+            { "data": "cedacriInternationalUserName" },
+            { "data": "cedacriItalyUserName" }
+        ],
+        createdRow: function (row, data, index) {
+            //
+            // if the second column cell is blank apply special formatting
+            //
+            $(row).addClass("dataTable");
+        },
+        
+        "columnDefs": [
+            { className: "idRow", "targets": [0] },
+        ]
+    });
 });
 
 // Refresh and get new data 

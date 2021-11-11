@@ -8,9 +8,12 @@ using CleanArc.Application.Services.Projects.Commands.ViewModels;
 using CleanArc.Application.Services.Projects.Queries.GetProjectDataTable;
 using CleanArc.Application.Services.Projects.Queries.GetProjectVmById;
 using CleanArc.Application.Services.Projects.ViewModels;
+using CleanArc.Common.DataTableModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Web.Controllers
 {
@@ -92,9 +95,10 @@ namespace Web.Controllers
 
         [HttpPost]
         [Route("getDataTable")]
-        public async Task<IActionResult> getDataTable([FromForm] JqueryDatatableParam param)
+        public async Task<IActionResult> getDataTable([FromForm] DataTablesParameters param)
         {
-            return Json(await Mediator.Send(new GetProjectDataTableQuery() { Model = param}));
+            var model = await Mediator.Send(new GetProjectDataTableQuery() { Model = param});
+            return this.CreateDataTableResult(model, param);
         }
 
         

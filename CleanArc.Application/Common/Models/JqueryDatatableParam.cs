@@ -7,9 +7,9 @@ namespace CleanArc.Application.Common.Models
     public class JqueryDatatableParam
     {
         public string sEcho { get; set; }
-        public string sSearch { get; set; }
-        public int iDisplayLength { get; set; }
-        public int iDisplayStart { get; set; }
+        public string search { get; set; }
+        public int length { get; set; }
+        public int start { get; set; }
         public int iColumns { get; set; }
         public int iSortCol_0 { get; set; }
         public string sSortDir_0 { get; set; }

@@ -22,8 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+	<FrameworkReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\CleanArc.Application\CleanArc.Application.csproj" />
     <ProjectReference Include="..\CleanArc.Infra.Data\CleanArc.Persistance.csproj" />
+    <ProjectReference Include="..\Common\CleanArc.Common.csproj" />
   </ItemGroup>
 
 </Project>
