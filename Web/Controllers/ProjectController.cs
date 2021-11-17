@@ -1,4 +1,5 @@
 ﻿using Application.Projects.Commands.AddProject;
+using Application.Projects.Commands.DeleteProject;
 using Application.Projects.Commands.UpdateProject;
 using CleanArc.Application.Services.Projects.Commands.ViewModels;
 using CleanArc.Application.Services.Projects.Queries.GetProjectVmById;
@@ -31,7 +32,7 @@ namespace Web.Controllers
             if (ModelState.IsValid)
             {
                 await Mediator.Send(new AddProjectCommand() { projectAdd = vm });
-                return Redirect("https://localhost:44337/home/projects?adress=projects");
+                return Redirect("https://localhost:44337/home/projectsdatatable");
             }
             return View(vm);
         }
@@ -60,9 +61,39 @@ namespace Web.Controllers
             if (ModelState.IsValid)
             {
                 await Mediator.Send(new ProjectUpdateByIdCommand() { Model = vm });
-                return Redirect("https://localhost:44337/home/projects?adress=projects");
+                return Redirect("https://localhost:44337/home/projectsdatatable");
             }
             return View(vm);
         }
+
+
+        [HttpDelete]
+        [Route("DeleteConfirmation/{id}")]
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
+        {
+            ViewBag.Id = id;
+            return View("~/Views/Home/Delete.cshtml");
+        }
+
+        [HttpPost]
+        [Route("Delete")]
+        public async Task<IActionResult> Delete([FromForm]Guid id)
+        {
+            await Mediator.Send(new DeleteProjectByIdCommand() { Model = new ProjectDeleteViewModel() { Id = id } });
+            return Redirect("https://localhost:44337/home/projectsdatatable");
+        }
+
+
+        [HttpGet]
+        [Route("Details/{id}")]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var vm = (await Mediator.Send(new GetProjectVmByIdQuery() { Id = id })).ResponseValue;
+
+
+            ViewBag.Model = vm;
+            return View("~/Views/Project/Details.cshtml");
+        }
+
     }
 }

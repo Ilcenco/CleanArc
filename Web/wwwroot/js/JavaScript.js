@@ -4,61 +4,27 @@ $(document).ready(function () {
     refresh();
 })
 
-//$(function () {
-//    var data = [
-//        [
-//            {
-//                text: "<i class='fa fa-cut site-cm-icon'></i>Add row",
-//                action: function () {
-//                    console.log("剪切");
-//                }
-//            },
-//            {
-//                text: "<i class='fa fa-copy site-cm-icon'></i>Remove Row"
-//            },
-//            {
-//                text: "<i class='fa fa-paste site-cm-icon'></i>Edit Data",
-//                action: function () {
-//                    console.log("粘贴");
-//                }
-//            }
-//        ],
-//    ];
-
-//    $("#dataTable").contextMenu(data);
-//})
 
 $(document).ready(function () {
 
-    //$('#dataTable').DataTable({
-    //    // Design Assets
-    //    stateSave: true,
-    //    autoWidth: true,
-    //    // ServerSide Setups
-    //    processing: true,
-    //    serverSide: true,
-    //    // Paging Setups
-    //    paging: true,
-    //    // Searching Setups
-    //    searching: { regex: true },
-    //    // Ajax Filter
-    //    ajax: {
-    //        url: "/api/projects/getDataTable",
-    //        type: "POST",
-    //        contentType: "application/json",
-    //        dataType: "json",
-    //        data: function (d) {
-    //            return JSON.stringify(d);
-    //        }
-    //    },
-    //    columns: [
-    //        { data: "Name" },
-    //        { data: "DepartmentName" },
-    //        { data: "CedacriInternationalUserName" },
-    //        { data: "CedacriItalyUserName" }
-    //    ]
-    //});
     $('#dataTable').DataTable({
+        initComplete: function () {
+            var input = $('.dataTables_filter input').unbind(),
+                self = this.api(),
+                $searchButton = $('<button class="btn btn-inverse"> <i class="fas fa-search"></i>')
+                    .click(function () {
+                        self.search(input.val()).draw();
+                    })
+        
+                //$clearButton = $('<button class="btn btn-inverse"> <i class="fas fa-trash"></i>')
+                //    .click(function () {
+                //        input.val('');
+                //        $searchButton.click();
+                //    })
+
+            $('.dataTables_filter').append($searchButton /*$clearButton*/);
+        },
+        language: { search: "" },
         "processing": true,
         "serverSide": true,
         "autoWidth": false,
@@ -84,6 +50,8 @@ $(document).ready(function () {
             { className: "idRow", "targets": [0] },
         ]
     });
+
+
 });
 
 // Refresh and get new data 
@@ -106,6 +74,35 @@ function deleteFunc(val) {
     DeleteData(val,adress, function (data) {
         refresh();
     });
+}
+
+function deleteFunc1(id) {
+    switch (adress) {
+        case "users":
+            break;
+        case "projects":
+            $.ajax({
+                type: 'DELETE',
+                dataType: 'html',
+                url: `/projects/DeleteConfirmation/` + id,
+                success: function (data) {
+                    $('#deletepopup').html(data);
+                },
+                error: (err) => console.error(err)
+            })
+            break;
+    }
+}
+
+function deleteFunc2(id) {
+    $.ajax({
+        type: 'DELETE',
+        url: `/projects/Delete/` + id,
+        dataType: 'json',
+        success: function (data) {
+            cb(data)
+        }
+    })
 }
 // edit
 function editFunc(id) {
@@ -140,9 +137,35 @@ function editFunc1(id) {
                     },
                     error: (err) => console.error(err)
                 })
+                break;
         }
     });
 }
+
+function detailsFunc1(id) {
+
+    $("#popup_text2").html("");
+    GetByID(id, adress, function (data) {
+        switch (adress) {
+            case "users":
+                drawUserEditContent(data.responseValue);
+                break;
+            case "projects":
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'html',
+                    url: `/projects/Details/` + id,
+                    success: function (data) {
+                        $('#popup_text1').html(data);
+                    },
+                    error: (err) => console.error(err)
+                })
+                break;
+        }
+    });
+}
+
+
 // add
 function addFunc() {
     $("#popup_text").html("");

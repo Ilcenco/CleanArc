@@ -11,7 +11,7 @@ namespace CleanArc.Application.Services.Projects.Commands.UpdateProject
             RuleFor(v => v.CedacriInternationalRUser).NotNull().WithMessage(" Please provide something");
             RuleFor(v => v.CedacriItalyRUser).NotNull().WithMessage("it takes 2 clicks to choose one");
             RuleFor(v => v.DepartmentId).NotNull().WithMessage(" Choose department");
-            RuleFor(v => v.Name).NotNull().NotEmpty().WithMessage("u have a name, it should also have");
+            RuleFor(v => v.Name).NotNull().WithMessage("u have a name, it should also have").NotEmpty().WithMessage("u have a name, it should also have");
         }
     }
 }

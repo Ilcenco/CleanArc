@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@{
+    Guid Id = ViewBag.Id;
+}
+
+<div>
+    <label> Do you want to delete it ?</label>
+    <input type="hidden" name="id" value="@Html.Raw(Id)" />
+</div>

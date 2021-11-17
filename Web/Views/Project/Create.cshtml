@@ -10,8 +10,7 @@
     <input asp-for="Name" type="text" class="form-control" />
     <span asp-validation-for="Name" class="text-danger"></span>
 
-    <br />
-    <label asp-for="DepartmentId"> Department</label>
+    <label asp-for="DepartmentId" style="display:block"> Department</label>
     <select asp-for="DepartmentId"
             asp-data-style="btn-select" asp-data-live-search="true"
             asp-data-size="3"
@@ -43,13 +42,8 @@
 </div>
 
 
+@section Scripts{
 
-
-
-
-
-
-@section scripts{
     <script>
         $(document).ready(function () {
             getDropDown(null, "departments", function (data) {
@@ -65,8 +59,4 @@
 
 
     </script>
-
-    
-    
-
 }

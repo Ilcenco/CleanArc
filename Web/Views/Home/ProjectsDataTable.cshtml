@@ -5,13 +5,28 @@
 *@
 @{
 }
-<link rel="stylesheet" href="~/css/Users.css" />
 
+@{
+    Guid id = Guid.NewGuid();
+}
 <!-- <table id="mytable"></table> -->
 <div class="wrapper">
     <div class="main-content listAll">
         <section id="sectionListAll">
-            <h2><i class="fas fa-user"></i>Projects</h2>
+            <div style="padding-top:15px; padding-left:10px">
+                <div style="display: inline">
+                    <h2 style="display:inline"><i class="fas fa-user"></i>Projects</h2>
+                </div>
+
+                <div style="display: inline; padding-left:815px">
+
+                    <button class="addBtn" id="addBtn" onclick="addFunc1()">
+                        <a data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-square"></i> Add New</a>
+                    </button>
+
+                </div>
+            </div>
+
             <p>
                 <table class="table table-hover table-striped table-class" id="dataTable">
                     <thead>
@@ -82,37 +97,107 @@
                         </div>
                     </div>
                 </form>
+                <form id="detailsProjectForm" asp-antiforgery="true" asp-action="Upsert" asp-controller="Project">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel1">Project</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="popup_text1">
+
+                                </div>
+                                <div class="modal-footer" id="popup_buttons1">
+                                    <div id="buttons">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form asp-action="Delete" asp-controller="Project">
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="deletepopup">
+
+                                </div>
+                                <div class="modal-footer" id="popup_buttons1">
+                                    <div id="buttons">
+                                        <button type="submit" class="btn btn-primary">Delete</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </p>
         </section>
         <br />
     </div>
 </div>
 
+@section Scripts{
+    <script>
+        //window.history.replaceState(stateObj,
+        //    "Page 3", "/page3.html");
 
-<script>
+        $(function () {
+            adress = "projects"
 
-    $(function () {
-        $.contextMenu({
-            selector: '.dataTable',
-            callback: function (key, options) {
-                var m = "clicked: " + key;
-                window.console && console.log(m) || alert(m);
-            },
-            items: {
-                "edit": {
-                    name: "Edit",
-                    icon: "edit",
-                    callback: function (itemKey, opt) {
-                        alert($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+            $.contextMenu({
+                selector: '.dataTable',
+                callback: function (key, options) {
+                    var m = "clicked: " + key;
+                    window.console && console.log(m) || alert(m);
+                },
+                items: {
+                    "details": {
+                        name: "Details",
+                        icon: "fas fa-info",
+                        callback: function (itemKey, opt) {
+                            $('#exampleModal1').modal('show');
+                            detailsFunc1($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                            //alert($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                        }
+                    },
+                    "edit": {
+                        name: "Edit",
+                        icon: "edit",
+                        callback: function (itemKey, opt) {
+                            $('#exampleModal1').modal('show');
+                            editFunc1($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                            //alert($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                        }
+                    },
+                    "delete": {
+                        name: "Delete",
+                        icon: "delete",
+                        callback: function (itemKey, opt) {
+                            $('#deleteModal').modal('show');
+                            var id = $("#dataTable").DataTable().row(opt.$trigger[0]).data().id;
+                            deleteId = $("#dataTable").DataTable().row(opt.$trigger[0]).data().id;
+                            deleteFunc1(id);
+                        }
                     }
                 }
-            }
+            });
+
+            $('.context-menu-one').on('click', function (e) {
+                console.log('clicked', this);
+            })
         });
 
-        $('.context-menu-one').on('click', function (e) {
-            console.log('clicked', this);
-        })
-    });
-
-</script>
-
+    </script>
+}

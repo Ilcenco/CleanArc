@@ -6,27 +6,26 @@
 }
 
 @{
-        ProjectUpdateViewModel Model = ViewBag.Model;
+    ProjectUpdateViewModel Model = ViewBag.Model;
 }
 
 <div id="formBody">
     <div asp-validation-summary="ModelOnly" class="validation"></div>
 
     <label asp-for="Id" hidden></label>
-    <input asp-for="Id" type="hidden" value=@Model.Id class="form-control" />
+    <input asp-for="Id" type="hidden" value=@Model.Id class="form-control" disabled />
     <span asp-validation-for="Id" class="text-danger"></span>
 
     <label asp-for="Name">Name </label>
-    <input asp-for="Name" type="text" value=@Model.Name class="form-control" />
+    <input asp-for="Name" type="text" value=@Model.Name class="form-control" disabled />
     <span asp-validation-for="Name" class="text-danger"></span>
 
-    
-    <label asp-for="DepartmentId" style="display:block"> Department </label>
+    <label asp-for="DepartmentId"> Department</label>
     <select asp-for="DepartmentId"
             asp-data-style="btn-select" asp-data-live-search="true"
             asp-data-size="3"
             asp-max-options="1"
-            class="custom-select" id="departmentDD">
+            class="custom-select" id="departmentDD" disabled>
     </select>
     <span asp-validation-for="DepartmentId" class="text-danger"></span>
 
@@ -36,7 +35,7 @@
             asp-data-style="btn-select" asp-data-live-search="true"
             asp-data-size="3"
             asp-max-options="1"
-            class="custom-select" id="userInterDD">
+            class="custom-select" id="userInterDD" disabled>
     </select>
     <span asp-validation-for="CedacriInternationalRUser" class="text-danger"></span>
 
@@ -46,20 +45,13 @@
             asp-data-style="btn-select" asp-data-live-search="true"
             asp-data-size="3"
             asp-max-options="1"
-            class="custom-select" id="userItalyDD">
+            class="custom-select" id="userItalyDD" disabled>
     </select>
     <span asp-validation-for="CedacriItalyRUser" class="text-danger"></span>
 </div>
 
-
-
-
-
-
-
-
-
 @section Scripts{
+
     <script>
         var ddId = '@Html.Raw(Model.DepartmentId)';
         var interId = '@Html.Raw(Model.CedacriInternationalRUser)';
@@ -68,20 +60,16 @@
     $(document).ready(function () {
 
         getDropDown(ddId, "departments", function (data) {
-            appendDataDropDown(data.responseValue, ddId, "#departmentDD")
+            appendDataDropDown(data.responseValue, ddId, "#departmentDD");
         });
         getDropDown(interId, "users", function (data) {
-            appendDataDropDown(data.responseValue, interId, "#userInterDD")
+            appendDataDropDown(data.responseValue, interId, "#userInterDD");
         });
         getDropDown(italyId, "users", function (data) {
-            appendDataDropDown(data.responseValue, italyId, "#userItalyDD")
+            appendDataDropDown(data.responseValue, italyId, "#userItalyDD");
         });
     });
 
 
     </script>
-
-
-
-
 }

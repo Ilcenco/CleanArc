@@ -6,7 +6,7 @@ var totalPages;
 //var global;
 var adress;
 var urlAdded = 0;
-
+var deleteId;
 function ResetVariable() {
     pageSize = 13;
     pageIndex = 1;
@@ -16,4 +16,5 @@ function ResetVariable() {
     //var global;
     adress = null;
     urlAdded = 0;
+    deleteId = null;
 }
