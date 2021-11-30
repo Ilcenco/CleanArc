@@ -14,6 +14,7 @@ namespace Application.Users.Commands.UpdateUser
     class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, ResponseModel<Guid>>
     {
         private readonly IDataContext _dataContext;
+        private readonly UserManager<IdentityUser> _userManager;
         public UpdateUserCommandHandler(IDataContext dataContext)
         {
             _dataContext = dataContext;
@@ -32,11 +33,6 @@ namespace Application.Users.Commands.UpdateUser
             user.NormalizedEmail = request.Model.Email.ToUpper();
 
             _dataContext.IdentityUsers.Update(user);
-            if (request.Model.ResetPassword)
-            {
-                user.PasswordHash = HashPassword("Cedacri1.");
-                user.SecurityStamp = Guid.NewGuid().ToString();
-            }
 
 
             await _dataContext.SaveChangesAsync(cancellationToken);
@@ -47,24 +43,6 @@ namespace Application.Users.Commands.UpdateUser
                 ErrorMessage = "",
             };
             return responseModel;
-        }
-        public static string HashPassword(string password)
-        {
-            byte[] salt;
-            byte[] bytes;
-            if (password == null)
-            {
-                throw new ArgumentNullException("password");
-            }
-            using (Rfc2898DeriveBytes rfc2898DeriveByte = new Rfc2898DeriveBytes(password, 16, 1000))
-            {
-                salt = rfc2898DeriveByte.Salt;
-                bytes = rfc2898DeriveByte.GetBytes(32);
-            }
-            byte[] numArray = new byte[49];
-            Buffer.BlockCopy(salt, 0, numArray, 1, 16);
-            Buffer.BlockCopy(bytes, 0, numArray, 17, 32);
-            return Convert.ToBase64String(numArray);
         }
 
     }

@@ -3,7 +3,9 @@ using Application.Users.Commands.UpdateUser;
 using Application.Users.Queries.GetUserById;
 using Application.Users.Queries.GetUserDropDown;
 using Application.Users.Queries.GetUserPage;
+using CleanArc.Application.Services.Users.Queries.GetUserDataTable;
 using CleanArc.Application.Services.Users.ViewModels;
+using CleanArc.Common.DataTableModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,10 +13,8 @@ using System.Threading.Tasks;
 namespace Web.Controllers
 {
     [Route("api/users")]
-    
     public class UserAPIController : BaseController
     {
-
         [HttpPut]
         [Route("Update")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -72,6 +72,15 @@ namespace Web.Controllers
             var response = await Mediator.Send(new GetUserPageQuery() { Filter = filter, PageIndex = pageIndex, PageSize = pageSize });
             return new JsonResult(response);
         }
-        
+
+        [HttpPost]
+        [Route("getDataTable")]
+        public async Task<IActionResult> getDataTable([FromForm] DataTablesParameters param)
+        {
+            var model = await Mediator.Send(new GetUserDataTableQuery() { Model = param });
+            return this.CreateDataTableResult(model, param);
+        }
+
+
     }
 }

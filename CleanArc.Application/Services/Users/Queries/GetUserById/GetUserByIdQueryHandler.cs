@@ -29,7 +29,7 @@ namespace Application.Users.Queries.GetUserById
                     .Where(u => u.Id == request.Id.ToString())
                     .Select(s => new UserDetailViewModel()
                 {
-                    Id = Guid.Parse(s.Id),
+                    Id = s.Id,
                     UserName = s.UserName,
                     Email = s.Email,
                     PhoneNumber = s.PhoneNumber

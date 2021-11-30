@@ -34,7 +34,7 @@ namespace Application.Users.Queries.GetUserPage
                     .Take(pageSize)
                     .Select(s => new UserDetailViewModel
                 {
-                    Id = Guid.Parse(s.Id),
+                    Id = s.Id,
                     UserName = s.UserName,
                     Email = s.Email,
                     PhoneNumber = s.PhoneNumber,
@@ -52,7 +52,7 @@ namespace Application.Users.Queries.GetUserPage
                 {
                     UserName = s.UserName,
                     Email = s.Email,
-                    Id = Guid.Parse(s.Id),
+                    Id = s.Id,
                     PhoneNumber = s.PhoneNumber,
                 }).ToListAsync(cancellationToken);
                 responseModel.totalItems = _dataContext.IdentityUsers.Where(c => c.UserName.Contains(filter)).Count();

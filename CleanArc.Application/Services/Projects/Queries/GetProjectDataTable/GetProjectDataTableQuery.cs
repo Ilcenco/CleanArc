@@ -9,7 +9,7 @@ using System.Text;
 namespace CleanArc.Application.Services.Projects.Queries.GetProjectDataTable
 {
     public class GetProjectDataTableQuery : IRequest<IEnumerable<ProjectDetailsViewModel>>
-    {
+    { 
         public DataTablesParameters Model { get; set; }
     }
 }

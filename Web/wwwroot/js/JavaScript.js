@@ -4,43 +4,6 @@
 $(document).ready(function () {
     adress = window.location.search.split('=')[1];
 
-    $('#dataTable').DataTable({
-        initComplete: function () {
-            var input = $('.dataTables_filter input').unbind(),
-                self = this.api(),
-                $searchButton = $('<button class="btn btn-inverse"> <i class="fas fa-search"></i>')
-                    .click(function () {
-                        self.search(input.val()).draw();
-                    })
-            $('.dataTables_filter').append($searchButton);
-        },
-        language: { search: "" },
-        "processing": true,
-        "serverSide": true,
-        "autoWidth": false,
-        "ajax": {
-            "url": "/api/projects/getDataTable",
-            "type": "POST",
-        },
-        "columns": [
-            { "data": "id" },
-            { "data": "name" },
-            { "data": "departmentName" },
-            { "data": "cedacriInternationalUserName" },
-            { "data": "cedacriItalyUserName" }
-        ],
-        createdRow: function (row, data, index) {
-            //
-            // if the second column cell is blank apply special formatting
-            //
-            $(row).addClass("dataTable");
-        },
-
-        "columnDefs": [
-            { className: "idRow", "targets": [0] },
-        ]
-    });
-
     $("#addProjectForm").submit(function (event) {
         
         $(".urlValueInput").each(function (item) {

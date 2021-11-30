@@ -4,6 +4,8 @@ using Application.Projects.Commands.UpdateProject;
 using CleanArc.Application.Services.Projects.Commands.ViewModels;
 using CleanArc.Application.Services.Projects.Queries.GetProjectVmById;
 using CleanArc.Application.Services.Projects.ViewModels;
+using CleanArc.Application.Services.Users.Queries.GetUserDataTable;
+using CleanArc.Common.DataTableModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;

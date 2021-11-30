@@ -1,92 +1,250 @@
-﻿@*
+﻿
+@model Application.Users.Commands.UpdateUser.UpdateUserCommand;
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
-<link rel="stylesheet" href="~/css/Users.css" />
 
+@{
+    Guid id = Guid.NewGuid();
+}
+<!-- <table id="mytable"></table> -->
 <div class="wrapper">
     <div class="main-content listAll">
         <section id="sectionListAll">
-            <h2><i class="fas fa-user"></i>Users</h2>
+            <div style="padding-top:15px; padding-left:10px">
+                <div style="display: inline">
+                    <h2 style="display:inline"><i class="fas fa-user"></i>Users</h2>
+                </div>
+
+                <div style="display: inline; float: right;">
+                    <a data-toggle="modal" data-target="#addmodal">
+                        <button type="button" class="btn btn-secondary" onclick="addFunc1()"><i class="fas fa-plus-square"></i> Add New</button>
+                    </a>
+                </div>
+            </div>
+
             <p>
-                <div class="upperSideList">
-                    <div class="form-group">
-                        <!--		Show Numbers Of Rows 		-->
-                        <select class="form-control" name="state" id="maxRows">
-                            <option value="13">Default 13</option>
-                            <option value="1">1</option>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                    </div>
-                    <div class="search">
-                        <form action="#">
-                            <input type="text"
-                                   placeholder=" Search User "
-                                   name="search"
-                                   onkeyup="filterFunc()"
-                                   id="searchInput">
-                        </form>
-                    </div>
-                </div>
-                <div class="container">
-                    <table class="table table-hover table-striped table-class" id="pagedTable">
-                        <thead>
-                            <tr class="props">
-                                <th class="th-sm">
-                                    <i class="fas fa-list-ol"></i>
-                                </th>
-                                <th class="th-sm">
-                                    <i class="fas fa-user"></i>Name
-                                </th>
-                                <th class="th-sm">
-                                    <i class="fas fa-envelope"></i> Email
-                                </th>
-                                <th class="th-sm">
-                                    <i class="fas fa-phone"></i>Phone Number
-                                </th>
-                                <th class="th-sm">
-                                    <i class="fas fa-edit"></i>Edit
-                                </th>
-                                <th class="th-sm">
-                                    <i class="fas fa-trash-alt"></i>Delete
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    <div class="paginationButtons" id="paginationButtons">
+                <table class="table table-hover table-striped table-class" id="dataTable">
+                    <thead>
+                        <tr class="props">
+                            <th class="th-sm">
+                                <i class="fas fa-user idRow"></i>Id
+                            </th>
+                            <th class="th-sm">
+                                <i class="fas fa-user"></i>Name
+                            </th>
+                            <th class="th-sm">
+                                <i class="fas fa-laptop-code"></i> Email
+                            </th>
+                            <th class="th-sm">
+                                <i class="fas fa-user"></i>Phone
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <form id="addUserForm" name="addUserForm" asp-antiforgery="true">
+                    <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-secondary text-white">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="add_text">
 
-                    </div>
-                </div>
-
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel"></h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body" id="popup_text">
-
-                            </div>
-                            <div class="modal-footer" id="popup_buttons">
-
+                                </div>
+                                <div class="modal-footer" id="add_buttons">
+                                    <div id="buttons">
+                                        <button type="submit" id="AddBut" class="btn btn-info">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
+                <form id="editUserForm" asp-antiforgery="true" asp-action="Upsert" asp-controller="User">
+                    <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-secondary text-white">
+                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="edit_text">
+
+                                </div>
+                                <div class="modal-footer" id="edit_buttons">
+                                    <div id="buttons">
+                                        <button type="submit" class="btn btn-success" id="appear">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form id="detailsUserForm" asp-antiforgery="true" asp-action="Upsert" asp-controller="User">
+                    <div class="modal fade" id="detailsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-secondary text-white">
+                                    <h5 class="modal-title" id="exampleModalLabel1"></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="details_text">
+
+                                </div>
+                                <div class="modal-footer" id="details_buttons">
+                                    <div id="buttons">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form asp-action="Delete" asp-controller="User">
+                    <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-secondary text-white">
+                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="delete_text">
+
+                                </div>
+                                <div class="modal-footer" id="delete_buttons">
+                                    <div id="buttons">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </p>
         </section>
         <br />
     </div>
 </div>
 
+@section Scripts{
+    <script>
+
+        $('#dataTable').DataTable({
+            initComplete: function () {
+                var input = $('.dataTables_filter input').unbind(),
+                    self = this.api(),
+                    $searchButton = $('<button class="btn btn-inverse"> <i class="fas fa-search"></i>')
+                        .click(function () {
+                            self.search(input.val()).draw();
+                        })
+                $('.dataTables_filter').append($searchButton);
+            },
+            language: { search: "" },
+            "processing": true,
+            "serverSide": true,
+            "autoWidth": false,
+            "ajax": {
+                "url": "/api/users/getDataTable",
+                "type": "POST",
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "userName" },
+                { "data": "email" },
+                { "data": "phoneNumber" },
+            ],
+            createdRow: function (row, data, index) {
+                //
+                // if the second column cell is blank apply special formatting
+                //
+                $(row).addClass("dataTable");
+            },
+
+            "columnDefs": [
+                { className: "idRow", "targets": [0] },
+            ]
+        });
+
+        var deleteProj = null;
+        var detailsProj = null;
+        var editProj = null;
+
+
+        $(function () {
+            adress = "projects"
+
+            $.contextMenu({
+                selector: '.dataTable',
+                callback: function (key, options) {
+                    var m = "clicked: " + key;
+                    window.console && console.log(m) || alert(m);
+                },
+                items: {
+                    "details": {
+                        name: "Details",
+                        icon: "fas fa-info",
+                        callback: function (itemKey, opt) {
+                            $('#detailsmodal').modal('show');
+                            detailsFunc1($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                            detailsProj = $("#dataTable").DataTable().row(opt.$trigger[0]).data().name
+                            document.getElementById("appear").style.visibility = "hidden";
+                            $("h5").text("Project " + detailsProj + " details")
+
+                            //alert($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                        }
+                    },
+                    "edit": {
+                        name: "Edit",
+                        icon: "edit",
+                        callback: function (itemKey, opt) {
+                            $('#editmodal').modal('show');
+                            editFunc1($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                            detailsProj = $("#dataTable").DataTable().row(opt.$trigger[0]).data().name
+                            $("h5").text("Edit " + detailsProj + " project")
+                            document.getElementById("appear").style.visibility = "visible";
+
+                            //alert($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                        }
+                    },
+                    "delete": {
+                        name: "Delete",
+                        icon: "delete",
+                        callback: function (itemKey, opt) {
+                            $('#deletemodal').modal('show');
+                            var id = $("#dataTable").DataTable().row(opt.$trigger[0]).data().id;
+                            detailsProj = $("#dataTable").DataTable().row(opt.$trigger[0]).data().name
+                            $("h5").text("Delete " + detailsProj + " project")
+                            deleteId = $("#dataTable").DataTable().row(opt.$trigger[0]).data().id;
+                            CallDeleteModal(id, "projects");
+                        }
+                    }
+                }
+            });
+
+            $('.context-menu-one').on('click', function (e) {
+                console.log('clicked', this);
+            })
+        });
+
+
+
+
+    </script>
+}
