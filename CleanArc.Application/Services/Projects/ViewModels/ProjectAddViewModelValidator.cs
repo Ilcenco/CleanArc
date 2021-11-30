@@ -11,6 +11,7 @@ namespace CleanArc.Application.Services.Projects.Commands.AddProject
             RuleFor(v => v.DepartmentId).NotNull().WithMessage("Max said it is also required");
             RuleFor(v => v.CedacriInternationalRUser).NotNull().WithMessage("This too");
             RuleFor(v => v.CedacriItalyRUser).NotNull().WithMessage("Man, everithing is required");
+            RuleForEach(v => v.URLs).SetValidator(new ProjectRepositoryURLViewModelValidator());
         }
     }
 }

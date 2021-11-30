@@ -22,6 +22,8 @@
 
   <ItemGroup>
     <Folder Include="Services\Departments\Commands\" />
+    <Folder Include="Services\Url\Commands\" />
+    <Folder Include="Services\Url\ViewModels\" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using Domain.Entities;
+using MediatR;
 using System;
+using System.Collections.Generic;
 
 namespace CleanArc.Application.Services.Projects.ViewModels
 {
@@ -9,5 +11,6 @@ namespace CleanArc.Application.Services.Projects.ViewModels
         public Guid DepartmentId { get; set; }
         public Guid CedacriInternationalRUser { get; set; }
         public Guid CedacriItalyRUser { get; set; }
+        public List<ProjectRepositoryURLViewModel> URLs { get; set; }
     }
 }

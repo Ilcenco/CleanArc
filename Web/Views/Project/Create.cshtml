@@ -39,12 +39,19 @@
     </select>
     <span asp-validation-for="CedacriItalyRUser" class="text-danger"></span>
 
+    <label id="urlLable" style="display:block"> Url List</label>
+    <div id="urlList">
+    </div>
+    <ul id="errors"></ul>
+    <button type="button" class="btn btn-secondary" id="addUrl" onclick="AddUrlTemplate()">Add Url</button>
 </div>
 
 
 @section Scripts{
 
     <script>
+        var urlNum = 0;
+        var urlId = 0;
         $(document).ready(function () {
             getDropDown(null, "departments", function (data) {
                 appendDataDropDown(data.responseValue, null, "#departmentDD")
@@ -55,8 +62,35 @@
             getDropDown(null, "users", function (data) {
                 appendDataDropDown(data.responseValue, null, "#userItalyDD")
             });
-        });
 
+        });
+        function AddUrlTemplate() {
+            var urltemplate =
+                '<div type="text" class="input-group urlTemplate" id="url' + urlId + '">' +
+                    '<input name="Inputurl' + urlId + '" type="text" id="Inputurl' + urlId + '" class="form-control urlValueInput"/>' +
+                    '<select name="DDurl' + urlId + '" asp-data-style="btn-select" class="custom-select input-group-append urlTypeDD" id="DDurl' + urlId + '" ></select>' +
+                    '<button type="button" class="btn btn-danger input-group-append" onclick="DeleteUrl(' + urlId + ')"><i class="fas fa-trash"></i></button>' +
+                '<span id="Inputurl' + urlId + '-error" class="input-validation-error text-danger errSpanInput"> </span>' +
+                '<span id="DDurl' + urlId + '-error" class="input-validation-error text-danger errSpanDD"> </span>' +
+                '</div >';
+            var ddNum = urlId;
+
+            getDropDown(null, "projects", function (data) {
+                appendDataDropDown(data.responseValue, null, "#DDurl" + ddNum)
+            });
+
+            urlNum++;
+            urlId++;
+            $('#urlList').append(urltemplate);
+        }
+
+        function DeleteUrl(urlId) {
+            urlNum--;
+            $("#url" + urlId).remove();
+            $("#Inputurl" + urlId + '-error').remove();
+            $("#DDurl" + urlId + '-error').remove();
+            console.log(urlNum);
+        }
 
     </script>
 }

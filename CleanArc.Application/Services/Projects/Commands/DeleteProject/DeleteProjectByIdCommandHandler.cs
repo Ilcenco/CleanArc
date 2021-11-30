@@ -1,6 +1,7 @@
 ﻿using Application.Common;
 using Application.Common.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
@@ -17,6 +18,9 @@ namespace Application.Projects.Commands.DeleteProject
         }
         public async Task<ResponseModel<Guid>> Handle(DeleteProjectByIdCommand request, CancellationToken cancellationToken)
         {
+            var urls = await _dataContext.ProjectRepositoriesUrl.Where(p => p.ProjectId.Equals(request.Model.Id)).ToListAsync();
+            _dataContext.ProjectRepositoriesUrl.RemoveRange(urls);
+
             var project = _dataContext.Projects.FirstOrDefault(p => p.Id.Equals(request.Model.Id));
             
             _dataContext.Projects.Remove(project);

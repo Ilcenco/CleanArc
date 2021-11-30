@@ -7,6 +7,10 @@ var totalPages;
 var adress;
 var urlAdded = 0;
 var deleteId;
+
+const url = { url: "", projectId: "", urlTypeId: "" };
+const urlArray = new Array();
+
 function ResetVariable() {
     pageSize = 13;
     pageIndex = 1;

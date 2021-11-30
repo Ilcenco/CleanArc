@@ -18,12 +18,10 @@
                     <h2 style="display:inline"><i class="fas fa-user"></i>Projects</h2>
                 </div>
 
-                <div style="display: inline; padding-left:815px">
-
-                    <button class="addBtn" id="addBtn" onclick="addFunc1()">
-                        <a data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-square"></i> Add New</a>
-                    </button>
-
+                <div style="display: inline; float: right;">
+                    <a data-toggle="modal" data-target="#addmodal">
+                        <button type="button" class="btn btn-secondary" onclick="addFunc1()"><i class="fas fa-plus-square"></i> Add New</button>
+                    </a>
                 </div>
             </div>
 
@@ -51,22 +49,22 @@
                     <tbody>
                     </tbody>
                 </table>
-                <form id="addProjectForm" asp-antiforgery="true" asp-action="Create" asp-controller="Project">
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <form id="addProjectForm" name="addProjectForm" asp-antiforgery="true">
+                    <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Project</h5>
+                                <div class="modal-header bg-secondary text-white">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add Project</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body" id="popup_text">
+                                <div class="modal-body" id="add_text">
 
                                 </div>
-                                <div class="modal-footer" id="popup_buttons">
+                                <div class="modal-footer" id="add_buttons">
                                     <div id="buttons">
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="submit" id="AddBut" class="btn btn-info">Save changes</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
@@ -75,21 +73,21 @@
                     </div>
                 </form>
                 <form id="editProjectForm" asp-antiforgery="true" asp-action="Upsert" asp-controller="Project">
-                    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Project</h5>
+                                <div class="modal-header bg-secondary text-white">
+                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body" id="popup_text1">
+                                <div class="modal-body" id="edit_text">
 
                                 </div>
-                                <div class="modal-footer" id="popup_buttons1">
+                                <div class="modal-footer" id="edit_buttons">
                                     <div id="buttons">
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="submit" class="btn btn-success" id="appear">Save changes</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
@@ -98,19 +96,19 @@
                     </div>
                 </form>
                 <form id="detailsProjectForm" asp-antiforgery="true" asp-action="Upsert" asp-controller="Project">
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                    <div class="modal fade" id="detailsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel1">Project</h5>
+                                <div class="modal-header bg-secondary text-white">
+                                    <h5 class="modal-title" id="exampleModalLabel1"></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body" id="popup_text1">
+                                <div class="modal-body" id="details_text">
 
                                 </div>
-                                <div class="modal-footer" id="popup_buttons1">
+                                <div class="modal-footer" id="details_buttons">
                                     <div id="buttons">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
@@ -120,21 +118,21 @@
                     </div>
                 </form>
                 <form asp-action="Delete" asp-controller="Project">
-                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
+                                <div class="modal-header bg-secondary text-white">
+                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body" id="deletepopup">
+                                <div class="modal-body" id="delete_text">
 
                                 </div>
-                                <div class="modal-footer" id="popup_buttons1">
+                                <div class="modal-footer" id="delete_buttons">
                                     <div id="buttons">
-                                        <button type="submit" class="btn btn-primary">Delete</button>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
@@ -150,9 +148,14 @@
 
 @section Scripts{
     <script>
-        //window.history.replaceState(stateObj,
-        //    "Page 3", "/page3.html");
 
+
+
+        var deleteProj = null;
+        var detailsProj = null;
+        var editProj = null;
+
+        
         $(function () {
             adress = "projects"
 
@@ -167,8 +170,12 @@
                         name: "Details",
                         icon: "fas fa-info",
                         callback: function (itemKey, opt) {
-                            $('#exampleModal1').modal('show');
+                            $('#detailsmodal').modal('show');
                             detailsFunc1($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                            detailsProj = $("#dataTable").DataTable().row(opt.$trigger[0]).data().name
+                            document.getElementById("appear").style.visibility = "hidden";
+                            $("h5").text("Project " + detailsProj + " details")
+                           
                             //alert($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
                         }
                     },
@@ -176,8 +183,12 @@
                         name: "Edit",
                         icon: "edit",
                         callback: function (itemKey, opt) {
-                            $('#exampleModal1').modal('show');
+                            $('#editmodal').modal('show');
                             editFunc1($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                            detailsProj = $("#dataTable").DataTable().row(opt.$trigger[0]).data().name
+                            $("h5").text("Edit " + detailsProj + " project")
+                            document.getElementById("appear").style.visibility = "visible";
+
                             //alert($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
                         }
                     },
@@ -185,10 +196,12 @@
                         name: "Delete",
                         icon: "delete",
                         callback: function (itemKey, opt) {
-                            $('#deleteModal').modal('show');
+                            $('#deletemodal').modal('show');
                             var id = $("#dataTable").DataTable().row(opt.$trigger[0]).data().id;
+                            detailsProj = $("#dataTable").DataTable().row(opt.$trigger[0]).data().name
+                            $("h5").text("Delete " + detailsProj + " project")
                             deleteId = $("#dataTable").DataTable().row(opt.$trigger[0]).data().id;
-                            deleteFunc1(id);
+                            CallDeleteModal(id, "projects");
                         }
                     }
                 }
@@ -198,6 +211,9 @@
                 console.log('clicked', this);
             })
         });
+
+
+
 
     </script>
 }

@@ -25,14 +25,12 @@ namespace Web.Controllers
             //return await ViewAsync("~/Views/Project/Create.cshtml");
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] ProjectAddViewModel vm)
+        public async Task<IActionResult> Create([FromForm]ProjectAddViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                await Mediator.Send(new AddProjectCommand() { projectAdd = vm });
-                return Redirect("https://localhost:44337/home/projectsdatatable");
+                return  Json(await Mediator.Send(new AddProjectCommand() { projectAdd = vm }));
             }
             return View(vm);
         }
@@ -59,9 +57,8 @@ namespace Web.Controllers
         public async Task<IActionResult> Upsert([FromForm] ProjectUpdateViewModel vm)
         {
             if (ModelState.IsValid)
-            {
-                await Mediator.Send(new ProjectUpdateByIdCommand() { Model = vm });
-                return Redirect("https://localhost:44337/home/projectsdatatable");
+            {    
+                return Json(await Mediator.Send(new ProjectUpdateByIdCommand() { Model = vm }));
             }
             return View(vm);
         }

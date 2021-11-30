@@ -1,11 +1,8 @@
-﻿// Executed every page loaded
+﻿
+
+// Executed every page loaded
 $(document).ready(function () {
     adress = window.location.search.split('=')[1];
-    refresh();
-})
-
-
-$(document).ready(function () {
 
     $('#dataTable').DataTable({
         initComplete: function () {
@@ -15,14 +12,7 @@ $(document).ready(function () {
                     .click(function () {
                         self.search(input.val()).draw();
                     })
-        
-                //$clearButton = $('<button class="btn btn-inverse"> <i class="fas fa-trash"></i>')
-                //    .click(function () {
-                //        input.val('');
-                //        $searchButton.click();
-                //    })
-
-            $('.dataTables_filter').append($searchButton /*$clearButton*/);
+            $('.dataTables_filter').append($searchButton);
         },
         language: { search: "" },
         "processing": true,
@@ -45,38 +35,154 @@ $(document).ready(function () {
             //
             $(row).addClass("dataTable");
         },
-        
+
         "columnDefs": [
             { className: "idRow", "targets": [0] },
         ]
     });
 
+    $("#addProjectForm").submit(function (event) {
+        
+        $(".urlValueInput").each(function (item) {
+            $(this).rules('add', {
+                required: true,
+                messages: { required: 'Url field is required.' }
+            });
+        })
+        $(".urlTypeDD").each(function (item) {
+            $(this).rules('add', {
+                required: true,
+                messages: { required: 'Choose Url Type' }
+            });
+        })
+
+        $("#addProjectForm").validate({
+            errorPlacement: function (error, element) {
+                error.insertAfter(element)
+            }
+        });
+
+        event.preventDefault();
+
+        if ($("#addProjectForm").valid()) {
+            // Get all dynamic elements id
+            var ids = [];
+            var urlIds = document.getElementById("urlList").children;
+            for (var i = 0, len = urlIds.length; i < len; i++) {
+                ids.push(urlIds[i].id);
+            }
+
+            // Get dynamic elements values using their id
+            var urlArray = [];
+            for (var i = 0; i < ids.length; i++) {
+                if (ids[i].includes("url")) {
+                    //console.log($('#Input' + ids[i]).valid());
+                    var url = { Url: $('#Input' + ids[i]).val(), UrlTypeId: $('#DD' + ids[i]).val() };
+                    urlArray.push(url);
+                }
+            }
+            var formData = $("#addProjectForm").serializeArray();
+
+            // Push each url parameter to form.A
+            for (var i = 0; i < urlArray.length; i++) {
+                formData.push({ name: "URLs[" + i + "].Url", value: urlArray[i].Url });
+                formData.push({ name: "URLs[" + i + "].UrlTypeId", value: urlArray[i].UrlTypeId });
+            }
+
+            $.ajax({
+                url: "/projects",
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    $('#addmodal').modal('hide');
+                    $('#dataTable').DataTable().ajax.reload()
+                },
+                error: function (xhr, status, error) {
+                }
+            });
+        }
+
+    });
+})
+
+
+$(".modal").on("hidden.bs.modal", function () {
+    $(".modal-body").html("");
+});
+
+
+
+
+$("#editProjectForm").submit(function (event) {
+    $(".urlValueInput").each(function (item) {
+        $(this).rules('add', {
+            required: true,
+            messages: { required: 'Url field is required.' }
+        });
+    })
+    $(".urlTypeDD").each(function (item) {
+        $(this).rules('add', {
+            required: true,
+            messages: { required: 'Choose Url Type' }
+        });
+    })
+
+    $("#editProjectForm").validate({
+        errorPlacement: function (error, element) {
+            error.insertAfter(element)
+        }
+    });
+    event.preventDefault();
+
+    if ($("#editProjectForm").valid()) {
+        var ids = [];
+        var urlIds = document.getElementById("urlList").children;
+        for (var i = 0, len = urlIds.length; i < len; i++) {
+            ids.push(urlIds[i].id);
+        }
+
+        // Get dynamic elements values using their id
+        var urlArray = [];
+        for (var i = 0; i < ids.length; i++) {
+            var url = { Url: $('#Input' + ids[i]).val(), UrlTypeId: $('#DD' + ids[i]).val(), Id: $('#IdInput' + ids[i]).val() };
+            urlArray.push(url);
+        }
+        var formData = $("#editProjectForm").serializeArray();
+
+        // Push each url parameter to form.A
+        for (var i = 0; i < urlArray.length; i++) {
+            if (urlArray[i].Id == "") {
+                formData.push({ name: "URLs[" + i + "].Id", value: null });
+            }
+            else {
+                formData.push({ name: "URLs[" + i + "].Id", value: urlArray[i].Id });
+
+            }
+            formData.push({ name: "URLs[" + i + "].Url", value: urlArray[i].Url });
+            formData.push({ name: "URLs[" + i + "].UrlTypeId", value: urlArray[i].UrlTypeId });
+        }
+
+        var actionURL = $(this).attr('action');
+        $.ajax({
+            url: actionURL,
+            method: "POST",
+            data: formData,
+            success: function (data) {
+                $('#editmodal').modal('hide');
+                $('#dataTable').DataTable().ajax.reload()
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+    // Get all dynamic elements id
+    
 
 });
 
-// Refresh and get new data 
-function refresh() {
-    if (adress == "projects" || adress == "users") {
-        if (document.getElementById("row")) {
-            $(row).remove();
-        }
-        $("#paginationButtons button").remove();
-        GetData(adress, function (data) {
-            totalPages = data.totalPages;
-            DrawTable(data.responseValue);
-            DrawPageButtons();
-        });
-    }    
-}
 
-//delete
-function deleteFunc(val) {
-    DeleteData(val,adress, function (data) {
-        refresh();
-    });
-}
-
-function deleteFunc1(id) {
+function CallDeleteModal(id, adress) {
     switch (adress) {
         case "users":
             break;
@@ -86,7 +192,7 @@ function deleteFunc1(id) {
                 dataType: 'html',
                 url: `/projects/DeleteConfirmation/` + id,
                 success: function (data) {
-                    $('#deletepopup').html(data);
+                    $('#delete_text').html(data);
                 },
                 error: (err) => console.error(err)
             })
@@ -107,7 +213,7 @@ function deleteFunc2(id) {
 // edit
 function editFunc(id) {
     
-    $("#popup_text").html("");
+    $("#edit_text").html("");
     GetByID(id, adress, function (data) {
         switch (adress) {
             case "users":
@@ -121,7 +227,7 @@ function editFunc(id) {
 
 function editFunc1(id) {
 
-    $("#popup_text").html("");
+    $("#edit_text").html("");
     GetByID(id, adress, function (data) {
         switch (adress) {
             case "users":
@@ -133,7 +239,7 @@ function editFunc1(id) {
                     dataType: 'html',
                     url: `/projects/Upsert/` + id,
                     success: function (data) {
-                        $('#popup_text1').html(data);
+                        $('#edit_text').html(data);
                     },
                     error: (err) => console.error(err)
                 })
@@ -144,7 +250,7 @@ function editFunc1(id) {
 
 function detailsFunc1(id) {
 
-    $("#popup_text2").html("");
+    $("#details_text").html("");
     GetByID(id, adress, function (data) {
         switch (adress) {
             case "users":
@@ -156,7 +262,7 @@ function detailsFunc1(id) {
                     dataType: 'html',
                     url: `/projects/Details/` + id,
                     success: function (data) {
-                        $('#popup_text1').html(data);
+                        $('#details_text').html(data);
                     },
                     error: (err) => console.error(err)
                 })
@@ -168,7 +274,7 @@ function detailsFunc1(id) {
 
 // add
 function addFunc() {
-    $("#popup_text").html("");
+    $("#add_text").html("");
     switch (adress) {
         case "projects":
             drawProjectCreateContent();
@@ -183,7 +289,7 @@ function addFunc1() {
         dataType: 'html',
         url: `/projects`,
         success: function (data) {
-            $('#popup_text').html(data);
+            $('#add_text').html(data);
         },
         error: (err) => console.error(err)
     })
@@ -417,6 +523,8 @@ function appendDataDropDown(data, idCurrentDep, dropDownId) {
     $(dropDownId).append(
         '<option value="" selected>none</option>'
     )
+    console.log(dropDownId + " " +  idCurrentDep);
+
 
     for (var i = 0; i < data.length; i++) {
         var name = JSON.stringify(data[i].name).replace(/\"/g, "");

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CleanArc.Application.Services.Projects.ViewModels;
+using System;
+using System.Collections.Generic;
 
 namespace Application.Projects.ViewModels
 {
@@ -12,5 +14,6 @@ namespace Application.Projects.ViewModels
         public string CedacriInternationalUserName { get; set; }
         public Guid CedacriItalyRUser { get; set; }
         public string CedacriItalyUserName { get; set; }
+        public List<ProjectRepositoryURLViewModel> URLs { get; set; }
     }
 }

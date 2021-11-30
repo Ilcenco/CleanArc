@@ -8,6 +8,7 @@ using CleanArc.Application.Services.Projects.Commands.ViewModels;
 using CleanArc.Application.Services.Projects.Queries.GetProjectDataTable;
 using CleanArc.Application.Services.Projects.Queries.GetProjectVmById;
 using CleanArc.Application.Services.Projects.ViewModels;
+using CleanArc.Application.Services.Url.Queries.GetUrlTypesDropDown;
 using CleanArc.Common.DataTableModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -101,6 +102,12 @@ namespace Web.Controllers
             return this.CreateDataTableResult(model, param);
         }
 
+        [HttpGet]
+        [Route("GetDropDown")]
+        public async Task<IActionResult> GetDropDown()
+        {
+            return new JsonResult(await Mediator.Send(new GetUrlTypesDropDownQuery()));
+        }
         
     }
 }

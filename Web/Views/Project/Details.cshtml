@@ -26,6 +26,13 @@
             asp-data-size="3"
             asp-max-options="1"
             class="custom-select" id="departmentDD" disabled>
+        @foreach (var department in Model.DepartmentsDropDown)
+        {
+            if (department.Id == Model.DepartmentId)
+            {
+                <option value="@department.Id" selected>@department.Name</option>
+            }
+        }
     </select>
     <span asp-validation-for="DepartmentId" class="text-danger"></span>
 
@@ -36,6 +43,13 @@
             asp-data-size="3"
             asp-max-options="1"
             class="custom-select" id="userInterDD" disabled>
+        @foreach (var user in Model.UsersDropDown)
+        {
+            if (user.Id == Model.CedacriInternationalRUser)
+            {
+                <option value="@user.Id" selected>@user.Name</option>
+            }
+        }
     </select>
     <span asp-validation-for="CedacriInternationalRUser" class="text-danger"></span>
 
@@ -46,30 +60,46 @@
             asp-data-size="3"
             asp-max-options="1"
             class="custom-select" id="userItalyDD" disabled>
+        @foreach (var user in Model.UsersDropDown)
+        {
+            if (user.Id == Model.CedacriItalyRUser)
+            {
+                <option value="@user.Id" selected>@user.Name</option>
+            }
+        }
     </select>
     <span asp-validation-for="CedacriItalyRUser" class="text-danger"></span>
+
+    <label id="urlLable" style="display:block"> Url List</label>
+    <div id="urlList">
+        @{  
+            int urlId = 0;
+            string url = "url";
+            string InputUrl = "InputUrl";
+            string DDurl = "DDurl";
+        }
+        @foreach (var item in Model.URLs)
+        {
+            <div class="input-group urlTemplate" id="@url@urlId">
+                <input type="text" id="@InputUrl@urlId" class="form-control urlValueInput" value="@Model.URLs[urlId].Url" disabled/>
+                <select asp-data-style="btn-select" class="custom-select input-group-append urlTypeDD" id="@DDurl@urlId" disabled>
+                    @foreach (var urlType in Model.UrlTypesDropDown)
+                    {
+                        if(urlType.Id == item.UrlTypeId)
+                        {
+                            <option value="@urlType.Id" selected>@urlType.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            urlId++;
+        }
+    </div>
 </div>
 
 @section Scripts{
 
     <script>
-        var ddId = '@Html.Raw(Model.DepartmentId)';
-        var interId = '@Html.Raw(Model.CedacriInternationalRUser)';
-        var italyId = '@Html.Raw(Model.CedacriItalyRUser)';
-
-    $(document).ready(function () {
-
-        getDropDown(ddId, "departments", function (data) {
-            appendDataDropDown(data.responseValue, ddId, "#departmentDD");
-        });
-        getDropDown(interId, "users", function (data) {
-            appendDataDropDown(data.responseValue, interId, "#userInterDD");
-        });
-        getDropDown(italyId, "users", function (data) {
-            appendDataDropDown(data.responseValue, italyId, "#userItalyDD");
-        });
-    });
-
-
+        
     </script>
 }
