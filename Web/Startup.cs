@@ -14,6 +14,8 @@ using Application.Common.Interfaces;
 using CleanArc.Application.Services.Projects.Commands.ViewModels;
 using FluentValidation;
 using CleanArc.Application.Services.Projects.Commands.UpdateProject;
+using Web.Common.Interfaces;
+using Web.Common;
 
 namespace Web
 {
@@ -30,7 +32,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddTransient<IValidator<ProjectUpdateViewModel>, ProjectUpdateViewModelValidator>();
-
+            services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddPersistence(Configuration);
             services.AddApplication();
 

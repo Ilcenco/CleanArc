@@ -70,9 +70,16 @@
     </select>
     <span asp-validation-for="CedacriItalyRUser" class="text-danger"></span>
 
-    <label id="urlLable" style="display:block"> Url List</label>
+    @if (Model.URLs.Count > 0)
+    {
+        <label id="urlLable" style="display:block"> Url List</label>
+    }
+    else
+    {
+        <label id="urlLable" style="display:block" hidden> Url List</label>
+    }
     <div id="urlList">
-        @{  
+        @{
             int urlId = 0;
             string url = "url";
             string InputUrl = "InputUrl";
@@ -81,11 +88,11 @@
         @foreach (var item in Model.URLs)
         {
             <div class="input-group urlTemplate" id="@url@urlId">
-                <input type="text" id="@InputUrl@urlId" class="form-control urlValueInput" value="@Model.URLs[urlId].Url" disabled/>
+                <input type="text" id="@InputUrl@urlId" class="form-control urlValueInput" value="@Model.URLs[urlId].Url" disabled />
                 <select asp-data-style="btn-select" class="custom-select input-group-append urlTypeDD" id="@DDurl@urlId" disabled>
                     @foreach (var urlType in Model.UrlTypesDropDown)
                     {
-                        if(urlType.Id == item.UrlTypeId)
+                        if (urlType.Id == item.UrlTypeId)
                         {
                             <option value="@urlType.Id" selected>@urlType.Name</option>
                         }

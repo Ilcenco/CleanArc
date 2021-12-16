@@ -1,4 +1,4 @@
-﻿using Application.Users.ViewModels;
+﻿using CleanArc.Application.Services.Users.ViewModels;
 using CleanArc.Common.DataTableModels;
 using MediatR;
 using System;

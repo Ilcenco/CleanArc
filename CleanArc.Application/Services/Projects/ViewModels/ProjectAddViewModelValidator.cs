@@ -8,9 +8,9 @@ namespace CleanArc.Application.Services.Projects.Commands.AddProject
         public ProjectAddViewModelValidator()
         {
             RuleFor(v => v.Name).NotNull().WithMessage("The name is required");
-            RuleFor(v => v.DepartmentId).NotNull().WithMessage("Max said it is also required");
-            RuleFor(v => v.CedacriInternationalRUser).NotNull().WithMessage("This too");
-            RuleFor(v => v.CedacriItalyRUser).NotNull().WithMessage("Man, everithing is required");
+            RuleFor(v => v.DepartmentId).NotNull().WithMessage("Department is required");
+            RuleFor(v => v.CedacriInternationalRUser).NotNull().WithMessage("Responsible user is required");
+            RuleFor(v => v.CedacriItalyRUser).NotNull().WithMessage("Responsible user is required");
             RuleForEach(v => v.URLs).SetValidator(new ProjectRepositoryURLViewModelValidator());
         }
     }

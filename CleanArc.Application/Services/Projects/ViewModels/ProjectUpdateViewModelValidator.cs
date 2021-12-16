@@ -8,11 +8,11 @@ namespace CleanArc.Application.Services.Projects.Commands.UpdateProject
     {
         public ProjectUpdateViewModelValidator()
         {
-            RuleFor(v => v.Id).NotNull().WithMessage("Lol Id is null");
-            RuleFor(v => v.CedacriInternationalRUser).NotNull().WithMessage(" Please provide something");
-            RuleFor(v => v.CedacriItalyRUser).NotNull().WithMessage("it takes 2 clicks to choose one");
-            RuleFor(v => v.DepartmentId).NotNull().WithMessage(" Choose department");
-            RuleFor(v => v.Name).NotNull().WithMessage("u have a name, it should also have").NotEmpty().WithMessage("u have a name, it should also have");
+            RuleFor(v => v.Id).NotNull().WithMessage("Project Id cant be null");
+            RuleFor(v => v.CedacriInternationalRUser).NotNull().WithMessage("Responsible user is required");
+            RuleFor(v => v.CedacriItalyRUser).NotNull().WithMessage("Responsible user is required");
+            RuleFor(v => v.DepartmentId).NotNull().WithMessage("Department is required");
+            RuleFor(v => v.Name).NotNull().WithMessage("Name is required").NotEmpty().WithMessage("Name field is required");
             RuleForEach(v => v.URLs).SetValidator(new ProjectRepositoryURLViewModelValidator());
         }
     }

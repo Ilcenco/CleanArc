@@ -39,11 +39,10 @@
     </select>
     <span asp-validation-for="CedacriItalyRUser" class="text-danger"></span>
 
-    <label id="urlLable" style="display:block"> Url List</label>
-    <div id="urlList">
-    </div>
-    <ul id="errors"></ul>
-    <button type="button" class="btn btn-secondary" id="addUrl" onclick="AddUrlTemplate()">Add Url</button>
+    <label id="urlLable" style="display:block" hidden> Url List</label>
+    <div id="urlList"></div>
+
+
 </div>
 
 
@@ -53,6 +52,7 @@
         var urlNum = 0;
         var urlId = 0;
         $(document).ready(function () {
+
             getDropDown(null, "departments", function (data) {
                 appendDataDropDown(data.responseValue, null, "#departmentDD")
             });
@@ -65,6 +65,7 @@
 
         });
         function AddUrlTemplate() {
+            $("#urlLable").attr("hidden", false);
             var urltemplate =
                 '<div type="text" class="input-group urlTemplate" id="url' + urlId + '">' +
                     '<input name="Inputurl' + urlId + '" type="text" id="Inputurl' + urlId + '" class="form-control urlValueInput"/>' +
@@ -89,7 +90,9 @@
             $("#url" + urlId).remove();
             $("#Inputurl" + urlId + '-error').remove();
             $("#DDurl" + urlId + '-error').remove();
-            console.log(urlNum);
+            if (urlNum == 0) {
+                $("#urlLable").attr("hidden", true);
+            }
         }
 
     </script>

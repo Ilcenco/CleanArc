@@ -20,7 +20,7 @@
 
                 <div style="display: inline; float: right;">
                     <a data-toggle="modal" data-target="#addmodal">
-                        <button type="button" class="btn btn-secondary" onclick="addFunc1()"><i class="fas fa-plus-square"></i> Add New</button>
+                        <button type="button" class="btn btn-secondary" onclick="ShowUserCreateModal()"><i class="fas fa-plus-square"></i> Add New</button>
                     </a>
                 </div>
             </div>
@@ -30,26 +30,30 @@
                     <thead>
                         <tr class="props">
                             <th class="th-sm">
-                                <i class="fas fa-user idRow"></i>Id
+                                <i class="idRow"></i>Id
                             </th>
                             <th class="th-sm">
-                                <i class="fas fa-user"></i>Name
+                                <i class="fas fa-user"></i> Name
                             </th>
                             <th class="th-sm">
-                                <i class="fas fa-laptop-code"></i> Email
+                                <i class="fas fa-envelope"></i> Email
                             </th>
                             <th class="th-sm">
-                                <i class="fas fa-user"></i>Phone
+                                <i class="fas fa-phone"></i> Phone
                             </th>
+                            <th class="th-sm">
+                                <i class="fas fa-power-off"></i> Is Active
+                            </th>
+
                         </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
-                <form id="addUserForm" name="addUserForm" asp-antiforgery="true">
-                    <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
+                <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form id="addUserForm" method="post" asp-action="Create" asp-controller="User">
                                 <div class="modal-header bg-secondary text-white">
                                     <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -61,14 +65,14 @@
                                 </div>
                                 <div class="modal-footer" id="add_buttons">
                                     <div id="buttons">
-                                        <button type="submit" id="AddBut" class="btn btn-info">Save changes</button>
+                                        <button type="submit" id="AddBut" class="btn btn-info">Add</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
-                </form>
+                </div>
                 <form id="editUserForm" asp-antiforgery="true" asp-action="Upsert" asp-controller="User">
                     <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -92,7 +96,7 @@
                         </div>
                     </div>
                 </form>
-                <form id="detailsUserForm" asp-antiforgery="true" asp-action="Upsert" asp-controller="User">
+                <form id="detailsUserForm" asp-antiforgery="true">
                     <div class="modal fade" id="detailsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -114,7 +118,7 @@
                         </div>
                     </div>
                 </form>
-                <form asp-action="Delete" asp-controller="User">
+                <form id="deleteUserForm" asp-action="Delete" asp-controller="User">
                     <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -165,15 +169,34 @@
                 "type": "POST",
             },
             "columns": [
-                { "data": "id" },
+                { "data": "id", },
                 { "data": "userName" },
                 { "data": "email" },
                 { "data": "phoneNumber" },
+                {
+                    "data": "isActive",
+                    "render": function (data, type, row) {
+
+                        if (data) {
+                            return '<span class="badge badge-success">Yes</span>';
+                        }
+                        else {
+                            return '<span class="badge badge-danger">No</span>';
+                        }
+                    },
+                    //"createdCell": function (td, cellData, rowData, row, col) {
+                    //    if (cellData) {
+                    //        $(td).addClass('badge badge-success');
+                    //    }
+                    //    else {
+                    //        $(td).addClass('badge badge-danger');
+                    //    }
+                    //}
+                },
+               
             ],
             createdRow: function (row, data, index) {
-                //
-                // if the second column cell is blank apply special formatting
-                //
+
                 $(row).addClass("dataTable");
             },
 
@@ -182,9 +205,9 @@
             ]
         });
 
-        var deleteProj = null;
-        var detailsProj = null;
-        var editProj = null;
+        var deleteUser = null;
+        var detailsUser = null;
+        var editUser = null;
 
 
         $(function () {
@@ -202,10 +225,10 @@
                         icon: "fas fa-info",
                         callback: function (itemKey, opt) {
                             $('#detailsmodal').modal('show');
-                            detailsFunc1($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
-                            detailsProj = $("#dataTable").DataTable().row(opt.$trigger[0]).data().name
+                            ShowUserDetailsModal($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                            detailsUser = $("#dataTable").DataTable().row(opt.$trigger[0]).data().userName
                             document.getElementById("appear").style.visibility = "hidden";
-                            $("h5").text("Project " + detailsProj + " details")
+                            $("h5").text("User " + detailsUser + " details")
 
                             //alert($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
                         }
@@ -215,9 +238,9 @@
                         icon: "edit",
                         callback: function (itemKey, opt) {
                             $('#editmodal').modal('show');
-                            editFunc1($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
-                            detailsProj = $("#dataTable").DataTable().row(opt.$trigger[0]).data().name
-                            $("h5").text("Edit " + detailsProj + " project")
+                            ShowUserEditModal($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
+                            editUser = $("#dataTable").DataTable().row(opt.$trigger[0]).data().userName;
+                            $("h5").text("Edit " + editUser + " user")
                             document.getElementById("appear").style.visibility = "visible";
 
                             //alert($("#dataTable").DataTable().row(opt.$trigger[0]).data().id);
@@ -229,10 +252,10 @@
                         callback: function (itemKey, opt) {
                             $('#deletemodal').modal('show');
                             var id = $("#dataTable").DataTable().row(opt.$trigger[0]).data().id;
-                            detailsProj = $("#dataTable").DataTable().row(opt.$trigger[0]).data().name
-                            $("h5").text("Delete " + detailsProj + " project")
+                            deleteUser = $("#dataTable").DataTable().row(opt.$trigger[0]).data().userName;
+                            $("h5").text("Delete " + deleteUser + " project")
                             deleteId = $("#dataTable").DataTable().row(opt.$trigger[0]).data().id;
-                            CallDeleteModal(id, "projects");
+                            ShowDeleteModal(id);
                         }
                     }
                 }
@@ -243,6 +266,160 @@
             })
         });
 
+        function ShowUserCreateModal () {
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataType: 'html',
+                url: `/users`,
+                success: function (data) {
+                    $('#add_text').html(data);
+                },
+                error: (err) => console.error(err)
+            })
+        }
+
+        function ShowUserEditModal(id) {
+            $("#edit_text").html("");
+            GetByID(id, adress, function (data) {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'html',
+                    url: `/users/Upsert/` + id,
+                    success: function (data) {
+                        $('#edit_text').html(data);
+                    },
+                    error: (err) => console.error(err)
+                })
+            });
+        }
+
+        function ShowUserDetailsModal(id) {
+            $("#details_text").html("");
+            $.ajax({
+                type: 'GET',
+                dataType: 'html',
+                url: `/users/Details/` + id,
+                success: function (data) {
+                    $('#details_text').html(data);
+                },
+                error: (err) => console.error(err)
+            });
+        }
+
+        function ShowDeleteModal(id) {
+            $.ajax({
+                type: 'DELETE',
+                dataType: 'html',
+                url: `/users/DeleteConfirmation/` + id,
+                success: function (data) {
+                    $('#delete_text').html(data);
+                },
+                error: (err) => console.error(err)
+            })
+        }
+
+        $("#deleteUserForm").submit(function (envent) {
+            event.preventDefault();
+
+            if ($("#deleteUserForm").valid()) {
+                var formData = $("#deleteUserForm").serializeArray();
+                $.ajax({
+                    url: "/users/DeleteConfirmation",
+                    method: "POST",
+                    data: formData,
+                }).done(function (data) {
+                    if (data.result == 1) {
+                        $('#deletemodal').modal('hide');
+                        $('#dataTable').DataTable().ajax.reload()
+                    }
+                    if (data.result == 4) {
+                        $('#delete_text').html(data.viewHtml);
+                    }
+                });
+            }
+        });
+
+        $("#addUserForm").submit(function (envent) {
+            event.preventDefault();
+
+            if ($("#addUserForm").valid()) {
+                var formData = $("#addUserForm").serializeArray();
+                $.ajax({
+                    url: "/users",
+                    method: "POST",
+                    data: formData,
+                }).done(function (data) {
+                    if (data.result == 1) {
+                        $('#addmodal').modal('hide');
+                        $('#dataTable').DataTable().ajax.reload()
+                    }
+                    if (data.result == 4) {
+                        $('#add_text').html(data.viewHtml);
+                    }
+                });
+            }
+        });
+
+
+
+        $("#editUserForm").submit(function (envent) {
+
+            if ($('#resetPassword').is(':checked')) {
+                $(".passwordInput").each(function () {
+                    $(this).rules('add', {
+                        required: true,
+                        passwordFormatCheck: true,
+                        messages: { required: 'Password field is required.' }
+                    });
+                });
+                $(".passwordInputConfirm").each(function () {
+                    $(this).rules('add', {
+                        required: true,
+                        equalTo: "#passwordInput",
+                        messages: {
+                            required: 'Confirm your password',
+                            equalTo: 'Please, enter the same password',
+                        }
+                    });
+                });
+            } // If Checked => add rules, else remove them.
+            else {
+                $('.passwordInput').rules('remove');
+                $('.passwordInputConfirm').rules('remove');
+            }
+
+            $("#editUserForm").validate({
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element)
+                }
+            });
+            $.validator.addMethod("passwordFormatCheck", function (value, element) {
+                return this.optional(element) || /^(?=.*\d)(?=.*[A-Z])(?=.*\W).*$/i.test(value);
+            }, 'Password must have capital letter, digit and special character');
+            
+            
+            event.preventDefault();
+
+            if ($("#editUserForm").valid()) {
+                var formData = $("#editUserForm").serializeArray();
+                console.log(formData);
+
+                $.ajax({
+                    url: "/users/Upsert",
+                    method: "POST",
+                    data: formData,
+                }).done(function (data) {
+                    if (data.result == 1) {
+                        $('#editmodal').modal('hide');
+                        $('#dataTable').DataTable().ajax.reload()
+                    }
+                    if (data.result == 4) {
+                        $('#edit_text').html(data.viewHtml);    
+                    }
+                });
+            }
+        });
 
 
 

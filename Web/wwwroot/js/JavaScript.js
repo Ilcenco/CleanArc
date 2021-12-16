@@ -4,6 +4,8 @@
 $(document).ready(function () {
     adress = window.location.search.split('=')[1];
 
+   
+
     $("#addProjectForm").submit(function (event) {
         
         $(".urlValueInput").each(function (item) {
@@ -508,3 +510,19 @@ function appendDataDropDown(data, idCurrentDep, dropDownId) {
     }
 }
 
+var appendValidationErrors = function () {
+    $('[data-valmsg-for]').each(function (index, item) {
+        var $currentItem = $(item);
+        if (!$currentItem.is(':empty')) {
+            var inputId = $currentItem.attr('data-valmsg-for');
+            $('#' + inputId).addClass('is-invalid');
+
+            var $span = $('<span>')
+                .addClass('is-invalid invalid-feedback')
+                .css('display', 'block')
+                .attr('id', inputId + '-error')
+                .text($currentItem.text());
+            $currentItem.empty().append($span);
+        }
+    });
+};

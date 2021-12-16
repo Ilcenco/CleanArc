@@ -1,6 +1,6 @@
 ﻿using Application.Common;
 using Application.Common.Interfaces;
-using Application.Users.ViewModels;
+using CleanArc.Application.Services.Users.ViewModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;

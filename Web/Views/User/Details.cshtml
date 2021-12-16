@@ -1,0 +1,44 @@
+﻿@using CleanArc.Application.Services.Users.ViewModels
+@model CleanArc.Application.Services.Users.ViewModels.UserDetailViewModel
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@{
+    UserDetailViewModel Model = ViewBag.Model;
+}
+<div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <label asp-for="Id" hidden></label>
+    <input asp-for="Id" type="hidden" value=@Model.Id class="form-control" readonly="readonly"/>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" value=@Model.Email readonly="readonly" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" class="form-control" value=@Model.UserName readonly="readonly"/>
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" value=@Model.PhoneNumber readonly="readonly"/>
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="custom-control custom-checkbox checkbox-lg">
+        @if (Model.IsActive)
+        {
+            <input asp-for="IsActive" type="checkbox" class="custom-control-input" id="isActive" checked disabled>
+        }
+        else
+        {
+            <input asp-for="IsActive" type="checkbox" class="custom-control-input" id="isActive" disabled>
+
+        }
+        <label asp-for="IsActive" class="custom-control-label" for="isActive">Is Account Active</label>
+    </div>
+</div>
+

@@ -82,8 +82,14 @@
         }
     </select>
     <span asp-validation-for="CedacriItalyRUser" class="text-danger"></span>
-
-    <label id="urlLable" style="display:block"> Url List</label>
+    @if (Model.URLs.Count > 0)
+    {
+        <label id="urlLable" style="display:block"> Url List</label>
+    }
+    else
+    {
+        <label id="urlLable" style="display:block" hidden> Url List</label>
+    }
     <div id="urlList">
         @{
             int urlId = 0;
@@ -94,31 +100,30 @@
             string error = "-error";
         }
         @foreach (var item in Model.URLs)
-        {   
-        <div class="input-group urlTemplate" id="@url@urlId">
-            <input type="text" value="@Model.URLs[urlId].Id" id="@IdInputUrl@urlId" hidden />
-            <input type="text" name="@InputUrl@urlId" id="@InputUrl@urlId" class="form-control urlValueInput" value="@Model.URLs[urlId].Url" />
-            <select asp-data-style="btn-select" class="custom-select input-group-append urlTypeDD" name="@DDurl@urlId" id="@DDurl@urlId">
-                @foreach (var urlType in Model.UrlTypesDropDown)
-                {
-                    if (urlType.Id == item.UrlTypeId)
+        {
+            <div class="input-group urlTemplate" id="@url@urlId">
+                <input type="text" value="@Model.URLs[urlId].Id" id="@IdInputUrl@urlId" hidden />
+                <input type="text" name="@InputUrl@urlId" id="@InputUrl@urlId" class="form-control urlValueInput" value="@Model.URLs[urlId].Url" />
+                <select asp-data-style="btn-select" class="custom-select input-group-append urlTypeDD" name="@DDurl@urlId" id="@DDurl@urlId">
+                    @foreach (var urlType in Model.UrlTypesDropDown)
                     {
-                        <option value="@urlType.Id" selected>@urlType.Name</option>
+                        if (urlType.Id == item.UrlTypeId)
+                        {
+                            <option value="@urlType.Id" selected>@urlType.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@urlType.Id">@urlType.Name</option>
+                        }
                     }
-                    else
-                    {
-                        <option value="@urlType.Id">@urlType.Name</option>
-                    }
-                }
-            </select>
-            <button type="button" class="btn btn-danger input-group-append" onclick="DeleteUrl(@urlId)"><i class="fas fa-trash"></i></button>
-            <span id="@InputUrl@urlId@error" class="input-validation-error text-danger errSpanInput"> </span>
-            <span id="@DDurl@urlId@error" class="input-validation-error text-danger errSpanDD"> </span>
-        </div>
+                </select>
+                <button type="button" class="btn btn-danger input-group-append" onclick="DeleteUrl(@urlId)"><i class="fas fa-trash"></i></button>
+                <span id="@InputUrl@urlId@error" class="input-validation-error text-danger errSpanInput"> </span>
+                <span id="@DDurl@urlId@error" class="input-validation-error text-danger errSpanDD"> </span>
+            </div>
             urlId++;
         }
     </div>
-    <button type="button" class="btn btn-secondary" id="addUrl" onclick="AddUrlTemplate()">Add Url</button>
 </div>
 
 @section Scripts{
@@ -126,6 +131,7 @@
         var urlId = '@Html.Raw(Model.URLs.Count)';
         var urlNum = '@Html.Raw(Model.URLs.Count)';
         function AddUrlTemplate() {
+            $("#urlLable").attr("hidden", false);
             var urltemplate =
                 '<div class="input-group urlTemplate" id="url' + urlId + '">' +
                     '<input type="text" value="" id="IdInputurl' + urlId +'" hidden/>' +
@@ -150,6 +156,9 @@
             urlNum--;
             $("#url" + urlId).remove();
             console.log(urlNum);
+            if (urlNum == 0) {
+                $("#urlLable").attr("hidden", true);
+            }
         }
     </script>
 }

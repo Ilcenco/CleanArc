@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Application.Users.ViewModels
+namespace CleanArc.Application.Services.Users.ViewModels
 {
     public class UserDetailViewModel
     {
@@ -8,5 +8,7 @@ namespace Application.Users.ViewModels
         public string UserName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public bool  IsActive { get; set; }
+        public bool  ResetPassword { get; set; }
     }
 }

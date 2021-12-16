@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using Application.Users.ViewModels;
+using CleanArc.Application.Services.Users.ViewModels;
 using CleanArc.Common.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +28,7 @@ namespace CleanArc.Application.Services.Users.Queries.GetUserDataTable
                 UserName = s.UserName,
                 PhoneNumber = s.PhoneNumber,
                 Email = s.Email,
+                IsActive = s.EmailConfirmed
             })
             .Search(request.Model)
             .OrderBy(request.Model)

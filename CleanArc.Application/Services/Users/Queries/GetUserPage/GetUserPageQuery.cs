@@ -1,5 +1,5 @@
 ﻿using Application.Common;
-using Application.Users.ViewModels;
+using CleanArc.Application.Services.Users.ViewModels;
 using MediatR;
 using System.Collections.Generic;
 

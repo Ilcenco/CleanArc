@@ -4,22 +4,24 @@ using CleanArc.Application.Services.Users.ViewModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Users.Queries.GetUserById
+namespace CleanArc.Application.Services.Users.Queries.GetUserDetails
 {
-    class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, ResponseModel<UserUpdateViewModel>>
+    public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, ResponseModel<UserDetailViewModel>>
     {
         private readonly IDataContext _dataContext;
-        public GetUserByIdQueryHandler(IDataContext dataContext)
+        public GetUserDetailsQueryHandler(IDataContext dataContext)
         {
             _dataContext = dataContext;
         }
-        public async Task<ResponseModel<UserUpdateViewModel>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseModel<UserDetailViewModel>> Handle(GetUserDetailsQuery request, CancellationToken cancellationToken)
         {
-            var rM = new ResponseModel<UserUpdateViewModel>();
+            var rM = new ResponseModel<UserDetailViewModel>();
             if (_dataContext.IdentityUsers.Any())
             {
 
@@ -27,9 +29,9 @@ namespace Application.Users.Queries.GetUserById
                 rM.IsError = false;
                 rM.ResponseValue = await _dataContext.IdentityUsers
                     .Where(u => u.Id == request.Id.ToString())
-                    .Select(s => new UserUpdateViewModel()
+                    .Select(s => new UserDetailViewModel()
                     {
-                        Id = Guid.Parse(s.Id),
+                        Id = s.Id,
                         UserName = s.UserName,
                         Email = s.Email,
                         PhoneNumber = s.PhoneNumber,
