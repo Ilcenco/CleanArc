@@ -7,6 +7,7 @@ var totalPages;
 var adress;
 var urlAdded = 0;
 var deleteId;
+var userType;
 
 const url = { url: "", projectId: "", urlTypeId: "" };
 const urlArray = new Array();
@@ -21,4 +22,5 @@ function ResetVariable() {
     adress = null;
     urlAdded = 0;
     deleteId = null;
+    userType = null;
 }

@@ -9,6 +9,7 @@ using CleanArc.Common.DataTableModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Web.Common;
 
 namespace Web.Controllers
 {
@@ -32,7 +33,12 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                lock (StaticLogs.Logs)
+                {
+                    StaticLogs.Logs.Add("Created new project: " + vm.Name);
+                }
                 return  Json(await Mediator.Send(new AddProjectCommand() { projectAdd = vm }));
+                
             }
             return View(vm);
         }
@@ -59,7 +65,11 @@ namespace Web.Controllers
         public async Task<IActionResult> Upsert([FromForm] ProjectUpdateViewModel vm)
         {
             if (ModelState.IsValid)
-            {    
+            {
+                lock (StaticLogs.Logs)
+                {
+                    StaticLogs.Logs.Add("Updated project: " + vm.Name);
+                }
                 return Json(await Mediator.Send(new ProjectUpdateByIdCommand() { Model = vm }));
             }
             return View(vm);
@@ -78,6 +88,10 @@ namespace Web.Controllers
         [Route("Delete")]
         public async Task<IActionResult> Delete([FromForm]Guid id)
         {
+            lock (StaticLogs.Logs)
+            {
+                StaticLogs.Logs.Add("Deleted project: " + id);
+            }
             await Mediator.Send(new DeleteProjectByIdCommand() { Model = new ProjectDeleteViewModel() { Id = id } });
             return Redirect("https://localhost:44337/home/projectsdatatable");
         }

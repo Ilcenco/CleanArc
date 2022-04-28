@@ -5,6 +5,56 @@ $(document).ready(function () {
     adress = window.location.search.split('=')[1];
 
    
+    $("#addNewsForm").submit(function (event) {
+        event.preventDefault();
+
+        if ($("#addNewsForm").valid()) {
+
+            var formData = $("#addNewsForm").serializeArray();
+
+            // Push each url parameter to form.A
+
+
+            $.ajax({
+                url: "/news",
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    $('#addmodal').modal('hide');
+                    $('#dataTable').DataTable().ajax.reload()
+                },
+                error: function (xhr, status, error) {
+                }
+            });
+        }
+
+    });
+
+    $("#editNewsForm").submit(function (event) {
+        event.preventDefault();
+
+        if ($("#editNewsForm").valid()) {
+
+            var formData = $("#editNewsForm").serializeArray();
+
+            // Push each url parameter to form.A
+
+            var actionURL = $(this).attr('action');
+
+            $.ajax({
+                url: actionURL,
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    $('#editmodal').modal('hide');
+                    $('#dataTable').DataTable().ajax.reload()
+                },
+                error: function (xhr, status, error) {
+                }
+            });
+        }
+
+    });
 
     $("#addProjectForm").submit(function (event) {
         
@@ -189,6 +239,42 @@ function editFunc(id) {
         }
     });
 }
+function checkUserEdit(id) {
+    $.ajax({
+        type: 'Get',
+        url: `/news/CheckUser`,
+        success: function (data) {
+            userType = data;
+            if (data != "Editor") {
+                $('#edit_text').html("Please LogIn as Editor to see this content!")
+            }
+            else {
+                editNews(id);
+            }
+        },
+        error: (err) => console.error(err)
+    })
+}
+function editNewsCheck(id) {
+    checkUserEdit(id);
+}
+
+function editNews(id) {
+    $("#edit_text").html("");
+    switch (adress) {
+        case "news":
+            $.ajax({
+                type: 'GET',
+                dataType: 'html',
+                url: `/news/Upsert/` + id,
+                success: function (data) {
+                    $('#edit_text').html(data);
+                },
+                error: (err) => console.error(err)
+            })
+            break;
+    }
+}
 
 function editFunc1(id) {
 
@@ -203,6 +289,18 @@ function editFunc1(id) {
                     type: 'GET',
                     dataType: 'html',
                     url: `/projects/Upsert/` + id,
+                    success: function (data) {
+                        $('#edit_text').html(data);
+                    },
+                    error: (err) => console.error(err)
+                })
+                break;
+            case "news":
+                debugger;
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'html',
+                    url: `/news/Upsert/` + id,
                     success: function (data) {
                         $('#edit_text').html(data);
                     },
@@ -232,11 +330,67 @@ function detailsFunc1(id) {
                     error: (err) => console.error(err)
                 })
                 break;
+            case "news":
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'html',
+                    url: `/news/Details/` + id,
+                    success: function (data) {
+                        $('#details_text').html(data);
+                    },
+                    error: (err) => console.error(err)
+                })
+                break;
         }
     });
 }
+function detailsFuncNews(id, isPrivate) {
+    checkUserDetails(id, isPrivate)
+}
+
+function GetNewsDetails(id) {
+    $.ajax({
+        type: 'GET',
+        dataType: 'html',
+        url: `/news/Details/` + id,
+        success: function (data) {
+            $('#details_text').html(data);
+            console.log(userType);
+        },
+        error: (err) => console.error(err)
+    })
+}
 
 
+function checkUserDetails(id, isPrivate) {
+    $.ajax({
+        type: 'Get',
+        url: `/news/CheckUser`,
+        success: function (data) {
+            userType = data;
+            if (data == "Anonim" && isPrivate) {
+                $('#details_text').html("Please LogIn to see this content!")
+            }
+            else {
+                GetNewsDetails(id);
+            }
+        },
+        error: (err) => console.error(err)
+    })
+}
+
+
+function editFuncNews(id) {
+    $.ajax({
+        type: 'Post',
+        dataType: 'html',
+        url: `/api/news/GetEdit/` + id,
+        success: function (data) {
+            $('#edit_text').html(data);
+        },
+        error: (err) => console.error(err)
+    })
+}
 // add
 function addFunc() {
     $("#add_text").html("");

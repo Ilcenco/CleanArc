@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
 
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,8 +30,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="https://localhost:44337/home/users?adress=users">Users</a>
                         </li>
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link text-dark" href="https://localhost:44337/home/projectsdatatable">Projects</a>
+                        </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="https://localhost:44337/home/newsdatatable">News</a>
                         </li>
                     </ul>
                 </div>
@@ -44,6 +46,7 @@
             @RenderBody()
         </main>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
             crossorigin="anonymous">
@@ -59,7 +62,6 @@
     <script src="~/scripts/contextmenu/jquery.ui.position.min.js"></script>
 
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-
 
 
     <script src="~/js/variables.js"></script>

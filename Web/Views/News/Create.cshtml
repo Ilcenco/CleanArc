@@ -1,0 +1,24 @@
+﻿@model CleanArc.Application.Services.News.ViewModels.NewsAddViewModel
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<div id="formBody">
+    <div asp-validation-summary="ModelOnly" class="validation"></div>
+
+    <label asp-for="Title">Title </label>
+    <input asp-for="Title" type="text" class="form-control" />
+    <span asp-validation-for="Title" class="text-danger"></span>
+
+    <label asp-for="Information">Information </label>
+    <input asp-for="Information" type="text" class="form-control" />
+    <span asp-validation-for="Information" class="text-danger"></span> 
+    
+    <label asp-for="Text">Text </label>
+    <input asp-for="Text" type="text" class="form-control" />
+    <span asp-validation-for="Text" class="text-danger"></span>
+
+    <label asp-for="IsPrivate">Is Private </label>
+    <input asp-for="IsPrivate" type="checkbox" class="form-control" />
+</div>
+

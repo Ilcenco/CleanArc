@@ -16,5 +16,6 @@ namespace Web
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+            
     }
 }

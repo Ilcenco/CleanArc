@@ -26,6 +26,10 @@ namespace Web.Controllers
         {
             return View();
         }
+        public IActionResult NewsDataTable()
+        {
+            return View();
+        }
         public IActionResult Delete()
         {
             return View();

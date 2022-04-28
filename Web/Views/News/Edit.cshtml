@@ -1,0 +1,37 @@
+﻿@using CleanArc.Application.Services.News.ViewModels
+@model CleanArc.Application.Services.News.ViewModels.UpdateNewsViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@{
+        UpdateNewsViewModel Model = ViewBag.Model;
+}
+
+<div id="formBody">
+    <div asp-validation-summary="ModelOnly" class="validation"></div>
+
+    <label asp-for="Id" hidden></label>
+    <input asp-for="Id" type="hidden" value=@Model.Id class="form-control" />
+    <span asp-validation-for="Id" class="text-danger"></span>
+
+    <label asp-for="Title">Title </label>
+    <input asp-for="Title" type="text" value=@Model.Title class="form-control" />
+    <span asp-validation-for="Title" class="text-danger"></span>
+    
+    <label asp-for="Information">Information </label>
+    <input asp-for="Information" type="textarea" value=@Model.Information class="form-control" />
+    <span asp-validation-for="Information" class="text-danger"></span>
+
+    <label asp-for="Text">Text </label>
+    <input asp-for="Text" type="text" value=@Model.Text class="form-control" />
+    <span asp-validation-for="Text" class="text-danger"></span>
+
+</div>
+
+@section Scripts{
+    <script>
+        
+    </script>
+}

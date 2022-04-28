@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using CleanArc.Domain.Entities;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +13,14 @@ namespace CleanArc.Persistance.Context
         public DbSet<Department> Departments { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectRepositoryURL> ProjectRepositoriesUrl { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<UserRoleValues> UserRoleValues { get; set; }
         public DbSet<UrlType> UrlTypes { get; set; }
         public DbSet<IdentityUser> IdentityUsers { get; set; }
         public DbSet<IdentityUserClaim<string>> IdentityUserClaims { get; set; }
         public DbSet<IdentityUserRole<string>> IdentityUserRoles { get; set; }
         public DbSet<IdentityRole> IdentityRoles { get; set; }
+        public DbSet<News> News { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

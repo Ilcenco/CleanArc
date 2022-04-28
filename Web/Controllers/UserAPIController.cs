@@ -3,6 +3,7 @@ using Application.Users.Commands.UpdateUser;
 using Application.Users.Queries.GetUserById;
 using Application.Users.Queries.GetUserDropDown;
 using Application.Users.Queries.GetUserPage;
+using CleanArc.Application.Services.UserRoles.Commands;
 using CleanArc.Application.Services.Users.Queries.GetUserDataTable;
 using CleanArc.Application.Services.Users.ViewModels;
 using CleanArc.Common.DataTableModels;
@@ -79,6 +80,13 @@ namespace Web.Controllers
         {
             var model = await Mediator.Send(new GetUserDataTableQuery() { Model = param });
             return this.CreateDataTableResult(model, param);
+        }
+
+        [HttpPost]
+        [Route("AddUserRole")]
+        public async Task<IActionResult> AddUserRole([FromForm] string role)
+        {
+            return new JsonResult(await Mediator.Send(new AddUserRoleCommand() { Role = role }));
         }
 
 

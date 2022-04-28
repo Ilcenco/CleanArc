@@ -15,6 +15,7 @@ using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Web;
+using Web.Common;
 
 namespace Web.Controllers
 {
@@ -28,7 +29,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                return new JsonResult(await Mediator.Send(new AddProjectCommand() { projectAdd = model }));
+                return new JsonResult(await Mediator.Send(model));
             }
             return new JsonResult("OK");
         }
@@ -108,6 +109,28 @@ namespace Web.Controllers
         {
             return new JsonResult(await Mediator.Send(new GetUrlTypesDropDownQuery()));
         }
-        
+
+        [HttpPost]
+        [Route("GetNewAction")]
+        public async Task<IActionResult> GetNewAction([FromBody] string mess)
+        {
+            lock (StaticLogs.Logs)
+            {
+                if (StaticLogs.Logs.Count != 0)
+                {
+                    var action = StaticLogs.Logs[StaticLogs.Logs.Count - 1];
+                    StaticLogs.Logs.RemoveAt(StaticLogs.Logs.Count - 1);
+                    return new JsonResult(action);
+                }
+                else
+                {
+                    var action = "noInfo";
+                    return new JsonResult(action);
+                }
+                
+            }
+            
+        }
+
     }
 }

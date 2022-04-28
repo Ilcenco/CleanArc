@@ -31,20 +31,11 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddTransient<IValidator<ProjectUpdateViewModel>, ProjectUpdateViewModelValidator>();
+
             services.AddTransient<IViewRenderService, ViewRenderService>();
             services.AddPersistence(Configuration);
             services.AddApplication();
-
-            //services.AddControllers().AddFluentValidation( fv => {
-
-            //    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-            //    fv.RegisterValidatorsFromAssemblyContaining<Startup>();
-            //});
-            services.AddMvc(options =>
-            {
-                //options.ModelBinderProviders.Insert(0, new DateTimeModelBinderProvider());
-            })
+            services.AddMvc(options =>{})
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IDataContext>());
@@ -67,11 +58,13 @@ namespace Web
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -92,11 +85,12 @@ namespace Web
             app.UseAuthentication();
             app.UseAuthorization();
 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=ProjectsDataTable}/{id?}");
+                    pattern: "{controller=Home}/{action=NewsDataTable}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
